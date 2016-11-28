@@ -26,22 +26,22 @@
 # R --vanilla --args bergmaschiMADMA3_sect B0 Luminal_A 7 10000 0.05< 6_FDR.R
 
 # Get the command line arguments
-# args = commandArgs();
-#  
-# file <- args[4];
-# param <- args[5];
-# phen <- args[6];
-# parts <- args[7];
-# perm <- as.numeric(args[8]);
-# sig <- as.numeric(args[9]);
+args = commandArgs();
+ 
+file <- args[4];
+param <- args[5];
+phen <- args[6];
+parts <- args[7];
+perm <- as.numeric(args[8]);
+sig <- as.numeric(args[9]);
 
 # Only for debugging purposes
-file <- "bergamaschi1pMADMA3";
-param <- "B0";
-phen <- "ErbB2";
-parts <- 1;
-perm <- 10000;
-sig <- 0.05;
+# file <- "bergamaschi1pMADMA3";
+# param <- "B0";
+# phen <- "ErbB2";
+# parts <- 1;
+# perm <- 10000;
+# sig <- 0.05;
  
 # Working directory
 begPath <- "~/Research";
