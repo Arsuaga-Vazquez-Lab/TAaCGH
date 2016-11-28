@@ -1,3 +1,5 @@
+#TODO the program doesn't work when there is only one part. It will be nice to have that adjustment
+
 # This program will adjust the p-values from 5_sig_pcalc_parts.R for multiple comparisons using FDR
 # It will read the different files (parts) and will create a single file with adjusted p-value
 # This script will need to be run only once no matter how many parts were used to split the dictionary
