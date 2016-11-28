@@ -1,5 +1,3 @@
-#TODO the program doesn't work when there is only one part. It will be nice to have that adjustment
-
 # This program will adjust the p-values from 5_sig_pcalc_parts.R for multiple comparisons using FDR
 # It will read the different files (parts) and will create a single file with adjusted p-value
 # This script will need to be run only once no matter how many parts were used to split the dictionary
@@ -25,25 +23,25 @@
 
 # EXAMPLE
 # R --slave --args set B0 test 2 10000 0.05< 6_FDR.R
-# R --vanilla --args horlings_sect B0 Hist_grade1and2 8 10000 0.05< 6_FDR.R
+# R --vanilla --args bergmaschiMADMA3_sect B0 Luminal_A 7 10000 0.05< 6_FDR.R
 
 # Get the command line arguments
-args = commandArgs();
- 
-file <- args[4];
-param <- args[5];
-phen <- args[6];
-parts <- args[7];
-perm <- as.numeric(args[8]);
-sig <- as.numeric(args[9]);
+# args = commandArgs();
+#  
+# file <- args[4];
+# param <- args[5];
+# phen <- args[6];
+# parts <- args[7];
+# perm <- as.numeric(args[8]);
+# sig <- as.numeric(args[9]);
 
 # Only for debugging purposes
-# file <- "bergamaschi_sect";
-# param <- "B0";
-# phen <- "TP53_mut";
-# parts <- 8;
-# perm <- 10000;
-# sig <- 0.05;
+file <- "bergamaschi1pMADMA3";
+param <- "B0";
+phen <- "ErbB2";
+parts <- 1;
+perm <- 10000;
+sig <- 0.05;
  
 # Working directory
 begPath <- "~/Research";
@@ -56,17 +54,19 @@ Path <- paste(begPath, "Results", file, "significance", "pvals", sep="/");
 filePath <- paste(Path, first, sep="/");
 print(filePath);
 all_fdr <- read.table(filePath, header=TRUE, sep="\t");
-all_fdr<-all_fdr[order(all_fdr$Chr, all_fdr$Arm,all_fdr$Segment), ]; 
+all_fdr<-all_fdr[order(all_fdr$Chr, all_fdr$Arm,all_fdr$Segment), ];
 
 # Paste together all the files
-for (i in c(2:parts)) {
-	tempPath <- paste(Path, "/", begName, "_", i, ".txt", sep=""); 
-	print(tempPath);
+if (parts>1) {
+  for (i in c(2:parts)) {
+	  tempPath <- paste(Path, "/", begName, "_", i, ".txt", sep=""); 
+	  print(tempPath);
 	
-	tempFile <- read.table(tempPath, header=TRUE, sep="\t");
-	tempFile<-tempFile[order(tempFile$Chr, tempFile$Arm,tempFile$Segment), ];
-	all_fdr <- rbind(all_fdr, tempFile);
-	rm(tempFile);
+	  tempFile <- read.table(tempPath, header=TRUE, sep="\t");
+	  tempFile<-tempFile[order(tempFile$Chr, tempFile$Arm,tempFile$Segment), ];
+	  all_fdr <- rbind(all_fdr, tempFile);
+	  rm(tempFile);
+  }
 }
 
 ######## ADJUSTING FOR MULTIPLE TESTING WITH FDR ########
