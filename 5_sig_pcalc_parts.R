@@ -40,7 +40,7 @@
 
 # EXAMPLE
 # R --vanilla --args B1 Basal horlings_arms 3 arms yes< 5_sig_pcalc_parts_new_out.R
-# R --vanilla --args B0 Luminal_A bergamaschi1pMADMA3 1 sections no< 5_sig_pcalc_parts_new_out.R
+# R --vanilla --args B0 Luminal_A bergamaschi1pMADMA3 1 sections no< 5_sig_pcalc_parts.R
 #  
 
 # Get the command line arguments
