@@ -1,3 +1,5 @@
+# This program is "new" because it allows you to work with full arms as well as sections
+# and is out becuase allows you to handle outliers
 #################################################
 # USAGE
 # 
@@ -7,6 +9,8 @@
 # in functions_sig.R.
 #
 # Note: The result is the collection of uncorrected p-values, FDR will be used in scripts to follow
+# Make sure to have adifferent name for the dataset in case you want to runit by arms and sections
+# for example: SET_arms and SET_sect as otherwise it might overwrite the first output
 #
 # Input: The following tab delimited text files.
 # 1. The dictionary files from 2_cgh_dictionary_cytoband.R.
@@ -31,10 +35,13 @@
 # 5. phenotype (ERBB2, basal, test, sim, etc)
 # 6. dataSet (SET, etc)
 # 7. partNum (an integer with the part from the dictionary)
+# 8. action: arms, sections
+# 9. outliers to remove: yes, no
 
 # EXAMPLE
-# R --slave --args B0 sim set 1 < 5_sig_pcalc_parts.R
-# nohup R --vanilla --args B0 TP53_mut bergamaschi_sect 10 < 5_sig_pcalc_parts.R
+# R --vanilla --args B1 Basal horlings_arms 3 arms yes< 5_sig_pcalc_parts_new_out.R
+# R --vanilla --args B0 Luminal_A bergamaschi1pMADMA3 1 sections no< 5_sig_pcalc_parts_new_out.R
+#  
 
 # Get the command line arguments
 args = commandArgs();
@@ -43,13 +50,16 @@ param <- args[4];
 phenotype <- args[5];
 dataSet <- args[6];
 partNum <- args[7];
+action <- args[8];
+outliers <- args[9];
  
 # for debugging purposes only
 # param <- "B0";
 # phenotype <- "TP53_mut";
 # dataSet <- "bergamaschi_sect";
 # partNum <- "11";
-
+# action<- "arms";
+# outliers <- "yes";
 
 ###############################
 # READ FILES
@@ -118,11 +128,12 @@ for(i in c(1:nrow(chrDict)))
 	seg <- chrDict[i,6];
 	beg <- chrDict[i,3];
 	end <- chrDict[i,4];
-	bpStart <- chrDict[i,7];
-	bpEnd <- chrDict[i,8];
-	CytoStart <- as.vector(chrDict[i,9]);
-	CytoEnd <- as.vector(chrDict[i,10]);
-	
+    if (action=="sections") {
+		bpStart <- chrDict[i,7];
+		bpEnd <- chrDict[i,8];
+		CytoStart <- as.vector(chrDict[i,9]);
+		CytoEnd <- as.vector(chrDict[i,10]);
+    }
 	print(paste("On chromosome ", chrArm, " segment ", seg, sep=""));
 	
 	dim<-"2";
@@ -156,10 +167,32 @@ for(i in c(1:nrow(chrDict)))
 		fillValue <- 0.0;
 		data[is.na(data)] <- fillValue;
 	}
+    
+    
+    # Initializing variables
+    phen1indices_noOut<-phen1indices;
+    phen2indices_noOut<-phen2indices;
+    phen1num_noOut<-phen1num;
+    phen2num_noOut<-phen2num;
+    outlier<-paste("out_",chrArm, sep="");
+    
+    # Remove outliers from arm
+	if (outliers=="yes") {
+	    if ( (outlier %in% colnames(phenData))==TRUE) {
+    	    outlierIndx<-which(phenData[,outlier]==1);
+        	phen1indices_noOut<-setdiff(phen1indices, outlierIndx);
+	        phen1num_noOut<-length(phen1indices_noOut);
+    	    phen2indices_noOut<-setdiff(phen2indices, outlierIndx);
+        	phen2num_noOut<-length(phen2indices_noOut);
+	        print(paste("After removing outliers in ",outlier,":", sep=""));
+    	    print(paste("There are ", phen1num_noOut, " patients for test", sep=""));
+        	print(paste("There are ", phen2num_noOut, " patients for control", sep=""));
+    	}
+    }
 
 	# Separate by phenotype
-	exp <- data[phen1indices,];
-	con <- data[phen2indices,];
+	exp <- data[phen1indices_noOut,];
+	con <- data[phen2indices_noOut,];
 
 	# Compute the pvalue
 	rndData <- randomize(exp, con, fillValue);
@@ -171,10 +204,18 @@ for(i in c(1:nrow(chrDict)))
 	print(partNum);
 		
 	# Put the pvals in the container
-	pvals <- rbind(pvals, c(chr, arm, dim, seg, beg, end, bpStart, bpEnd, CytoStart, CytoEnd, pval, stat));
+    if (action=="sections") {
+		pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, bpStart, bpEnd, CytoStart, CytoEnd, pval, stat));
+    } else {
+        pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, pval, stat));
+    }
 	
 }
 
 # Rename columns and write the file
-colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "Idx0.Beg", "Idx0.End", "bpStart", "bpEnd", "CytoStart", "CytoEnd","P.Value", "Test.Stat");
+if (action=="sections") {
+    colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End", "bpStart", "bpEnd", "CytoStart", "CytoEnd","P.Value", "Test.Stat");
+} else {
+    colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End","P.Value", "Test.Stat");
+}
 write.table(pvals, file=uncorrPath, row.names=F, sep='\t')
