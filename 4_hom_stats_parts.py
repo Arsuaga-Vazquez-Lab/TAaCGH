@@ -78,7 +78,7 @@ dictList.pop(0)
 
 # Using dimension 2 as window
 cloudDim = 2
-
+ 
 # Establish the results directory
 resultsPath = os.path.join(begPath, "Results", dataSet, repr(cloudDim)+"D", "Homology")
 
@@ -244,3 +244,11 @@ for row in dictList:
     for hDim in range(len(bettiNums)):
         bettiPath = "%s/B%d_%dD_%s_%d%s_seg%d.txt" % (resultsPath, hDim, cloudDim, dataSet, chr, arm, seg)
         writeFile(bettiNums[hDim], bettiPath, "\t")
+
+# Saving in a text file the epsilon increment used for the homology
+EpsPath = "%s/Epsilon_%04.2f.txt" % (resultsPath, epsIncr)
+EpsText = "Used epsilon=%04.2f" % (epsIncr)
+makeDirectory(resultsPath)
+EpsFile = open(EpsPath,"w")
+EpsFile.write(EpsText)
+EpsFile.close()
