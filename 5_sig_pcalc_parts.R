@@ -198,6 +198,8 @@ for(i in c(1:nrow(chrDict)))
 	rndData <- randomize(exp, con, fillValue);
 	pval <- rndData[[1]];
 	stat <- rndData[[2]];
+	sumPos <- rndData[[3]];
+	sumNeg <- rndData[[4]];
 		
 	print(pval);
 	print(stat);
@@ -205,17 +207,17 @@ for(i in c(1:nrow(chrDict)))
 		
 	# Put the pvals in the container
     if (action=="sections") {
-		pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, bpStart, bpEnd, CytoStart, CytoEnd, pval, stat));
+		pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, bpStart, bpEnd, CytoStart, CytoEnd, pval, stat, sumPos, sumNeg));
     } else {
-        pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, pval, stat));
+        pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, pval, stat, sumPos, sumNeg));
     }
 	
 }
 
 # Rename columns and write the file
 if (action=="sections") {
-    colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End", "bpStart", "bpEnd", "CytoStart", "CytoEnd","P.Value", "Test.Stat");
+    colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End", "bpStart", "bpEnd", "CytoStart", "CytoEnd","P.Value", "Test.Stat", "AreaPos", "AreaNeg");
 } else {
-    colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End","P.Value", "Test.Stat");
+    colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End","P.Value", "Test.Stat", "AreaPos", "AreaNeg");
 }
 write.table(pvals, file=uncorrPath, row.names=F, sep='\t')
