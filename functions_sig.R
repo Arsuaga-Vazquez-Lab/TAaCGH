@@ -39,6 +39,15 @@ randomize <- function(df1, df2, fill, Replace_Subject=FALSE, Nitrs=10000)
 	
 	# Compute the reference test statistic
 	test_stat <- get_stat_diff_squared(m1,m2);
+	# area by epsilon test-control (positive if blue on top)
+	dif <- colMeans(m1) - colMeans(m2)
+	# a column with a flag for positive and negative numbers (1, -1, 0)
+	#sign<-sign(dif)
+	# get the positive area
+	#sumPos<-sum(dif[sign!=-1])
+	sumPos<-sum(dif[sign(dif)==1])
+	# get the negative area
+	sumNeg<-sum(dif[sign(dif)==-1])
 	
 	if (test_stat==0) { 
 		stop("The test statistic is 0! Something isn't right...");
@@ -62,7 +71,7 @@ randomize <- function(df1, df2, fill, Replace_Subject=FALSE, Nitrs=10000)
 							}
 							);
 
-	return(list(sum(rnd_vec >= test_stat)/Nitrs, test_stat));
+	return(list(sum(rnd_vec >= test_stat)/Nitrs, test_stat, sumPos, sumNeg));
 }
 
 ########## FUNCTION curvesMeans

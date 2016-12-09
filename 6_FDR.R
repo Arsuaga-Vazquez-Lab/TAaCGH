@@ -24,7 +24,7 @@
 
 # EXAMPLE
 # R --slave --args set B0 test 2 10000 0.05< 6_FDR.R
-# R --vanilla --args bergmaschiMADMA3_sect B0 Luminal_A 7 10000 0.05< 6_FDR.R
+# R --vanilla --args bergamaschiMADMA3_sect B0 Luminal_A 7 10000 0.05< 6_FDR.R
 
 # Get the command line arguments
 args = commandArgs();
