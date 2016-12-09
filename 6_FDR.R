@@ -1,3 +1,4 @@
+# TODO do I need to add I way to run a specific directory without running all the parts (like when you need to run a subset of the dictionary)? Need a parameter to tell the program to run a specific dictionary
 # This program will adjust the p-values from 5_sig_pcalc_parts.R for multiple comparisons using FDR
 # It will read the different files (parts) and will create a single file with adjusted p-value
 # This script will need to be run only once no matter how many parts were used to split the dictionary
