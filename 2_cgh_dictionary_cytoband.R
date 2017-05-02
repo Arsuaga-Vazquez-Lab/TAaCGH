@@ -61,8 +61,11 @@ data <- read.table(dataPath, header=T, sep='\t', comment.char="", stringsAsFacto
 
 # Making sure the dataset was in the right order. Will replace original file
 # saving a copy of the original file under set_data_orig.txt
+# if Chrom has characters (like "X") will read as character variable and 
+# will have produce a weird order (I believe it doesn't matter)
+#TODO will be nice to have a proper routine to check for format complience
 write.table(data,dupPath,sep='\t',row.names = FALSE)
-data<-data[mixedorder(data$Chrom, data$Arm, data$bp),]
+data<-data[order(data$Chrom, data$Arm, data$bp),]
 write.table(data,dataPath,sep='\t',row.names = FALSE)
 
 ###############################
