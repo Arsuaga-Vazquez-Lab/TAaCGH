@@ -27,6 +27,8 @@
 # R --slave --args gonzalez simC2 arms 8 < cgh_dictionary_gina_Terminal.R
 # R --vanilla --args set 8 20 < 2_cgh_dictionary_cytoband.R
 
+library(gtools)
+
 # Get the command line arguments
 args = commandArgs();
 
@@ -50,10 +52,18 @@ begPath <- "~/Research";
 
 dataFile <- paste(dataSet, "data", "full.txt", sep="_");
 dataPath <- paste(begPath, "Data", dataSet, dataFile, sep="/");
-
+# path to create a duplicate
+dupFile  <- paste(dataSet, "data", "orig.txt", sep="_");
+dupPath <- paste(begPath, "Data", dataSet, dupFile, sep="/");
 print(dataPath);
 
-data <- read.table(dataPath, header=T, sep='\t', comment.char="");
+data <- read.table(dataPath, header=T, sep='\t', comment.char="", stringsAsFactors = FALSE);
+
+# Making sure the dataset was in the right order. Will replace original file
+# saving a copy of the original file under set_data_orig.txt
+write.table(data,dupPath,sep='\t',row.names = FALSE)
+data<-data[mixedorder(data$Chrom, data$Arm, data$bp),]
+write.table(data,dataPath,sep='\t',row.names = FALSE)
 
 ###############################
 # BEGIN PROGRAM

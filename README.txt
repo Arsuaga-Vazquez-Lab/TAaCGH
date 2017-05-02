@@ -9,11 +9,14 @@ do not start with a number. Those are either functions called by the scripts or 
 meant to be run in the terminal by calling a command with the necessary arguments. Information about
 the arguments and examples of the command lines are available in the first lines of the code.
 2. Pre-process aCGH file. Lets call the tab delimited file "SET.txt"
-	2.1 Update the position (bp) for every clone using the last build from a genome browser.	2.2 The file should have 5 columns with the information about the clone and its position. 
+	2.1 Update the position (bp) for every clone using the last build from a genome browser.
+	2.2 The file should have 5 columns with the information about the clone and its position. 
 	The names of those columns must be "Clone" "Chrom" "Arm" "Cytoband" "bp". 
-	For X chromosome use 23 and for Y use 24 in humans. aCGH information for every patient(row)
-	shall start in column number 6.	2.3 Verify that there are no duplicates in the file for every Chrom/Arm/bp 
-	combination. If there are any, they must be averaged	2.4 Impute missing values using impute_aCGH.R. This program uses lowess from the
+	For X chromosome use 23 and for Y use 24 in humans (otherwise will produce weird ordering to dataSet). 
+	aCGH information for every patient(row) shall start in column number 6.
+	2.3 Verify that there are no duplicates in the file for every Chrom/Arm/bp 
+	combination. If there are any, they must be averaged
+	2.4 Impute missing values using impute_aCGH.R. This program uses lowess from the
 	aCGH package from Bioconductor (http://www.bioconductor.org/packages//2.11/bioc/html/aCGH.html)
 	2.5 Name: Use a short name for the file, for instance "SET" 
 	and add at the end "data_full.txt" so that the name of the file become something like 
@@ -21,7 +24,8 @@ the arguments and examples of the command lines are available in the first lines
 3. Phenotype file. Should be named SET_phen.txt. Consists of two or more columns "patID" and one or more columns for the different phenotypes. Each phenotype column must be coded with 1 for those patient in the test group and 0 for those in control. patID will have the ID of the patient (do not start the ID with a number, make sure the ID follows the rules for variable names in R). The program works using an index, therefore it is very important that the file is ordered by patient in the exact same order as the patients in the aCGH file. And of course it should have the exact same patients, no more, no less.
 3.1 Inspect the data for outliers and find the chromosome and arm for those clones. If any, register them by chrom-arm combination creating a column in the phenotype file named "out_chrArm" (e.g. "out_17q") with 1’s for outliers and 0’s for the rest of the patients. There is no need for a column if the chrom-arm combination did not have any outliers. The patient will not be considered when computing the center of mass of that particular arm
 4. From SET_data_full.txt, create a "dictionary" specifying the index positions for each segment within the arms 
-using 2_cgh_dictionary_cytoband.R. Decide the number of parts to split the file to speed up the the homology and the permutations by running each part in parallel
+using 2_cgh_dictionary_cytoband.R. Decide the number of parts to split the file to speed up the the homology and the permutations by running each part in parallel. This script will overwrite set_data_full.txt after reordering the 
+dataSet and will generate set_data_orig.txt with the original dataSet.
 4b. Compute summary statistics (Average minimum and average 5% percentile) for the distance between points using 4b_dist_Q05.R. Results will be saved in SET_dict_cyto.txt
 5. Create SET_data.txt, the transposed version of SET_data_full.txt using 3_Transposed_aCGH.R
 6. Run the homology (B0 or B1) feeding SET_data.txt into 4_hom_stats_parts.py. You will need to run it as many times as the number of parts used to split the dictionary
