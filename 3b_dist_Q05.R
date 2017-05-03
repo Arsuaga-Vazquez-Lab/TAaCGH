@@ -11,7 +11,7 @@ args = commandArgs();
 dataSet <- args[4];
 
 # Only for debugging
-# dataSet<-"horlings_sect"
+# dataSet<-"NCMAD"
 
 begPath <- "~/Research";
 dim<-"2";
@@ -35,6 +35,7 @@ data <- read.table(dataPath, header=T, sep='\t', comment.char='');
 
 Avg_Min<-c()
 Avg_Q05<-c()
+Avg_Q25<-c()
 # Reading dictionary to go segment by segment
 for (i in 1:nrow(chrDict)) {
   chr <- chrDict[i,1];
@@ -48,6 +49,7 @@ for (i in 1:nrow(chrDict)) {
   # Initializing
   minAllPats<-c();
   sum<-0;
+  sum2<-0;
   
   # cloud and minimum euclidean distance
   for (pat in 6:ncol(data)) {
@@ -55,12 +57,15 @@ for (i in 1:nrow(chrDict)) {
     dist<-dist(cloud, method="euclidean")
     minAllPats<-c(minAllPats,min(dist))
     sum<-sum+quantile(dist,0.05)
+    sum2<-sum2+quantile(dist,0.25)
   }
   Avg_Min<-c(Avg_Min,mean(minAllPats))
   Avg_Q05<-c(Avg_Q05,sum/(ncol(data)-5))
+  Avg_Q25<-c(Avg_Q25,sum2/(ncol(data)-5))
 }
 chrDict$Avg_Min<-Avg_Min
 chrDict$Avg_Q05<-Avg_Q05
+chrDict$Avg_Q25<-Avg_Q25
 
 # Let's save these statistics in the dictionary   
 write.table(chrDict,chrDictPath, sep='\t', row.names=FALSE)
