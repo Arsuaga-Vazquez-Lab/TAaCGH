@@ -15,16 +15,19 @@
 # where sig is the threshold chosen as the maximum FDR allowed for significance.
 
 # ARGUMENTS
-# 4. Name of dataset/file
+# 4. file    Name of dataset/file
 # 5. Parameter (B0, B1, etc)
 # 6. phenotype (lumA, test, sim, rec, etc)
 # 7. Parts (in which the directory was split (TOTAL))
 # 8. perm: number of permutations used to modify 0 p-values (e.g. 1/10,000=0.0001, pvalue[0]=0.0001)
 # 9. sig: desired false discovery rate (fdr) for the significant sections
+# 10. subdir a directory within /file to send the results and read dictionaries, sig_pcalc files
+# note: data should be within /file directory
 
 # EXAMPLE
 # R --slave --args set B0 test 2 10000 0.05< 6_FDR.R
 # R --vanilla --args bergamaschiMADMA3_sect B0 Luminal_A 7 10000 0.05< 6_FDR.R
+# R --vanilla --args bergamaschiMADMA3_sect B0 Luminal_A 7 10000 0.05 subdir< 6_FDR.R
 
 # Get the command line arguments
 args = commandArgs();
@@ -35,6 +38,7 @@ phen <- args[6];
 parts <- args[7];
 perm <- as.numeric(args[8]);
 sig <- as.numeric(args[9]);
+subdir <- args[10]; 
 
 # Only for debugging purposes
 # file <- "bergamaschi1pMADMA3";
@@ -43,7 +47,8 @@ sig <- as.numeric(args[9]);
 # parts <- 1;
 # perm <- 10000;
 # sig <- 0.05;
- 
+# subdir <- "valHorl";
+
 # Working directory
 begPath <- "~/Research";
 
@@ -51,7 +56,7 @@ begPath <- "~/Research";
 # Read the first file
 begName <- paste(param, phen, file, "pvals", sep="_");
 first <- paste(begName, "1.txt", sep="_");
-Path <- paste(begPath, "Results", file, "significance", "pvals", sep="/");
+Path <- paste(begPath, "Results", file, subdir, "significance", "pvals", sep="/");
 filePath <- paste(Path, first, sep="/");
 print(filePath);
 all_fdr <- read.table(filePath, header=TRUE, sep="\t");

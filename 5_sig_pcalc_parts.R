@@ -37,6 +37,7 @@
 # 7. partNum (an integer with the part from the dictionary)
 # 8. action: arms, sections
 # 9. outliers to remove: yes, no
+# 10. subdir  a directory within /dataSet dir to read the dictionaries
 
 # EXAMPLE
 # R --vanilla --args B1 Basal horlings_arms 3 arms yes< 5_sig_pcalc_parts_new_out.R
@@ -52,6 +53,7 @@ dataSet <- args[6];
 partNum <- args[7];
 action <- args[8];
 outliers <- args[9];
+subdir <- args[10];
  
 # for debugging purposes only
 # param <- "B0";
@@ -60,6 +62,7 @@ outliers <- args[9];
 # partNum <- "11";
 # action<- "arms";
 # outliers <- "yes";
+# subdir <- "valHorl";
 
 ###############################
 # READ FILES
@@ -82,7 +85,8 @@ source(srcPath);
 
 # Read the chromosome dictionary data
 chrDictFile <- paste(dataSet, "_dict_", partNum, ".txt", sep="");
-chrDictPath <- paste(begPath, "Data", dataSet, chrDictFile, sep="/");
+#chrDictPath <- paste(begPath, "Data", dataSet, chrDictFile, sep="/");
+chrDictPath <- paste(begPath, "Data", dataSet, subdir, chrDictFile, sep="/");
 chrDict <- read.table(chrDictPath, header=TRUE, sep="\t");
 print(chrDict);
 
@@ -109,7 +113,8 @@ print(paste("There are ", phen2num, " phenotype2", sep=""));
 
 # Write path for p-values and header
 uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_pvals_", partNum, ".txt", sep="");
-uncorrFolder <- paste(begPath, "Results", dataSet, "significance", "pvals", sep="/");
+#uncorrFolder <- paste(begPath, "Results", dataSet, "significance", "pvals", sep="/");
+uncorrFolder <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
 
 if(!file.exists(uncorrFolder)) {
 	dir.create(uncorrFolder, recursive=TRUE);

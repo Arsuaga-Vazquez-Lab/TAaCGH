@@ -37,14 +37,19 @@ from functions_cgh import *
 # 2. homDim (usually 1 or 2, which computes B0 or (B0 and B1), respectively.
 # 3. partNum (a positive integer)
 # 4. epsIncr (usually 0.01 or 0.05)
+# 5. subdir the name of a subdir within /dataSet dir for this particular run
+# note: dataSet will be expected within /dataSet dir but diccionaries within subdir
+# results for homology will be saved under /Results/dataSet
 # 
 # EXAMPLE
 # > python 4_hom_stats_parts.py set 1 2 0.01
+# > python 4_hom_stats_parts.py set 1 2 0.01 subdir
 
 dataSet = sys.argv[1]
 homDim = int(sys.argv[2])
 partNum = int(sys.argv[3])
 epsIncr = round(float(sys.argv[4]), 3)
+subdir = sys.argv[5]
 
 #################################################
 # FILE SPECIFIC FUNCTIONS
@@ -62,7 +67,8 @@ begPath = os.path.join(os.getenv('HOME'), "Research")
 
 # Set the paths for the dictionary, and data files
 dictFile = "%s_dict_%d.txt" % (dataSet, partNum)
-dictPath = os.path.join(begPath, "Data", dataSet, dictFile)
+#dictPath = os.path.join(begPath, "Data",dataSet, dictFile)
+dictPath = os.path.join(begPath, "Data", dataSet, subdir, dictFile)
 
 dataFile = "%s_data.txt" % (dataSet)
 dataPath = os.path.join(begPath, "Data", dataSet, dataFile)
