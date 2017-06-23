@@ -41,7 +41,7 @@
 
 # EXAMPLE
 # R --vanilla --args B1 Basal horlings_arms 3 arms yes< 5_sig_pcalc_parts_new_out.R
-# R --vanilla --args B0 Luminal_A bergamaschi1pMADMA3 1 sections no< 5_sig_pcalc_parts.R
+# R --vanilla --args B0 Her2 NCMAD 10 sections no valHorl< 5_sig_pcalc_parts.R
 #  
 
 # Get the command line arguments
@@ -88,12 +88,14 @@ chrDictFile <- paste(dataSet, "_dict_", partNum, ".txt", sep="");
 #chrDictPath <- paste(begPath, "Data", dataSet, chrDictFile, sep="/");
 chrDictPath <- paste(begPath, "Data", dataSet, subdir, chrDictFile, sep="/");
 chrDict <- read.table(chrDictPath, header=TRUE, sep="\t");
-print(chrDict);
+print(paste("dictPath",chrDictPath, sep=" "));
+print(paste("partNum",partNum, sep=" "));
 
 # Read the phenotype data
 phenFile <- paste(dataSet, "phen.txt", sep="_");
 phenPath <- paste(begPath, "Data", dataSet, phenFile, sep="/");
 phenData <- read.table(phenPath, header=TRUE, sep="\t");
+print(paste("phenPath",phenPath, sep=" "));
 
 ###############################
 # BEGIN PROGRAM
@@ -115,6 +117,7 @@ print(paste("There are ", phen2num, " phenotype2", sep=""));
 uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_pvals_", partNum, ".txt", sep="");
 #uncorrFolder <- paste(begPath, "Results", dataSet, "significance", "pvals", sep="/");
 uncorrFolder <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
+print(paste("dictResults",uncorrFolder, sep=" "));
 
 if(!file.exists(uncorrFolder)) {
 	dir.create(uncorrFolder, recursive=TRUE);
