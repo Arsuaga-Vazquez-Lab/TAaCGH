@@ -29,23 +29,23 @@
 # Note: use vanilla when testing and slave when ready to avoid the log
 # R --vanilla --args set 8 arms 20 arms < 2_cgh_dictionary_cytoband.R
 
-library(gtools)
+#library(gtools) #it looks it doesn't need this library
 
 # Get the command line arguments
-args = commandArgs();
+#args = commandArgs();
 
-dataSet <- args[4];
-numParts <- as.integer(args[5]);
-action <- args[6];
-segLength <- as.integer(args[7]);
-subdir <- args[8];
+#dataSet <- args[4];
+#numParts <- as.integer(args[5]);
+#action <- args[6];
+#segLength <- as.integer(args[7]);
+#subdir <- args[8];
 
 # to run locally
-#dataSet <- "horlings";
-#numParts <- 7;
-#action <- "arms";
-#segLength <- 20;
-#subdir <- "arms";
+dataSet <- "horlings";
+numParts <- 7;
+action <- "arms";
+segLength <- 20;
+subdir <- "arms";
 
 ###############################
 # FUNCTIONS NEEDED
