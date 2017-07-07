@@ -19,13 +19,15 @@
 # COMMAND LINE ARGUMENTS
 # 4. dataSet: short name for dataSet (e.g. set)
 # 5. numParts: number of parts to split the dictionary. Usually 8
-# 6. segLength: Section size (Best: 20 to 50). This will be the minimum number of probes
-#       needed to run a specific arm
+# 6. action: arms, sections
+# 7. segLength: Section size (Best: 20 to 50). This will be the minimum number of probes
+#       needed to run a specific arm. In the case of arms it will take the full arm but 
+#       a value is needed (greater than the smaller arm number of clones)
+# 8. subdir  a directory within /dataSet dir to read the dictionaries
 
 # EXAMPLE
 # Note: use vanilla when testing and slave when ready to avoid the log
-# R --slave --args gonzalez simC2 arms 8 < cgh_dictionary_gina_Terminal.R
-# R --vanilla --args set 8 20 < 2_cgh_dictionary_cytoband.R
+# R --vanilla --args set 8 arms 20 arms < 2_cgh_dictionary_cytoband.R
 
 library(gtools)
 
@@ -34,7 +36,16 @@ args = commandArgs();
 
 dataSet <- args[4];
 numParts <- as.integer(args[5]);
-segLength <- as.integer(args[6]);
+action <- args[6];
+segLength <- as.integer(args[7]);
+subdir <- args[8];
+
+# to run locally
+#dataSet <- "horlings";
+#numParts <- 7;
+#action <- "arms";
+#segLength <- 20;
+#subdir <- "arms";
 
 ###############################
 # FUNCTIONS NEEDED
@@ -96,9 +107,9 @@ for(chrom in chroms) {
 			#if(armLength > minProbes) {
             if(armLength > segLength) {
 
-#				if(action == "arms") {
-				#	dict <- rbind(dict, c(chrom, arm, beg, end, end-beg));
-				#} else if(action == "segments") {
+				if(action == "arms") {
+					dict <- rbind(dict, c(chrom, arm, beg, end, end-beg, 1));
+				} else if(action == "segments") {
 					# Initialize variables to track location of segment for while loop
 					segNum <- 1;
 					#segLength <- 20;
@@ -138,20 +149,20 @@ for(chrom in chroms) {
 							segEndIndex <- segEndIndex + segLength - 1;
 						}
 					}
-                    #}
+        }
 			}
 		}
 	}
 }
 
-#if(action == "arms") {
+if(action == "arms") {
 	# Change column names
-#	colnames(dict) <- c("Chrom", "Arm", "Beg", "End", "Length");
-#} else if(action == "segments") {
+	colnames(dict) <- c("Chrom", "Arm", "Beg", "End", "Length","OneSeg");
+} else if(action == "segments") {
 	# Change column names
 	colnames(dict) <- c("Chrom", "Arm", "Beg", "End", "Length", "Segment", "bpStart", "bpEnd", "CytoStart", "CytoEnd");
 #	colnames(dict) <- c("Chrom", "Arm", "Beg", "End", "Length", "Segment");
-#}
+}
 
 # Split up the dictionary
 indices <- c(1:nrow(dict));
@@ -168,6 +179,6 @@ for(i in c(1:length(partsList)))
 
 # Setup and write the dictionary file
 dictFile <- paste(dataSet, "dict_cyto.txt", sep="_");
-dictPath <- paste(begPath, "Data", dataSet, dictFile, sep="/");
+dictPath <- paste(begPath, "Data", dataSet, subdir, dictFile, sep="/");
 
 write.table(dict, dictPath, sep='\t', row.names=FALSE);
