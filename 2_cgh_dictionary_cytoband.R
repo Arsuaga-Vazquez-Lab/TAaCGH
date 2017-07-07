@@ -75,6 +75,7 @@ data <- read.table(dataPath, header=T, sep='\t', comment.char="", stringsAsFacto
 # if Chrom has characters (like "X") will read as character variable and 
 # will have produce a weird order (I believe it doesn't matter)
 #TODO will be nice to have a proper routine to check for format complience
+#TODO need a function to check if set_data_orig.txt already exist and stop rewritting it
 write.table(data,dupPath,sep='\t',row.names = FALSE)
 data<-data[order(data$Chrom, data$Arm, data$bp),]
 write.table(data,dataPath,sep='\t',row.names = FALSE)
