@@ -32,20 +32,20 @@
 #library(gtools) #it looks it doesn't need this library
 
 # Get the command line arguments
-#args = commandArgs();
+args = commandArgs();
 
-#dataSet <- args[4];
-#numParts <- as.integer(args[5]);
-#action <- args[6];
-#segLength <- as.integer(args[7]);
-#subdir <- args[8];
+dataSet <- args[4];
+numParts <- as.integer(args[5]);
+action <- args[6];
+segLength <- as.integer(args[7]);
+subdir <- args[8];
 
 # to run locally
-dataSet <- "horlings";
-numParts <- 7;
-action <- "arms";
-segLength <- 20;
-subdir <- "arms";
+#dataSet <- "horlings";
+#numParts <- 7;
+#action <- "arms";
+#segLength <- 20;
+#subdir <- "arms";
 
 ###############################
 # FUNCTIONS NEEDED
@@ -171,7 +171,7 @@ partsList <- slice(indices, ceiling(nrow(dict) / numParts));
 for(i in c(1:length(partsList)))
 {
 	partDictFile <- paste(dataSet, '_dict_', i, '.txt', sep='');
-	partDictPath <- paste(begPath, 'Data', dataSet, partDictFile, sep='/');
+	partDictPath <- paste(begPath, 'Data', dataSet,subdir, partDictFile, sep='/');
 	
 	print(dict[partsList[[i]], ]);
 	
