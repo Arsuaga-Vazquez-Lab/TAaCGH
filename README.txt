@@ -26,7 +26,7 @@ the arguments and examples of the command lines are available in the first lines
 4. From SET_data_full.txt, create a "dictionary" specifying the index positions for each segment within the arms 
 using 2_cgh_dictionary_cytoband.R. Decide the number of parts to split the file to speed up the the homology and the permutations by running each part in parallel. This script will overwrite set_data_full.txt after reordering the 
 dataSet and will generate set_data_orig.txt with the original dataSet.
-4b. Compute summary statistics (Average minimum and average 5% percentile) for the distance between points using 4b_dist_Q05.R. Results will be saved in SET_dict_cyto.txt
+4b. Compute summary statistics (Average minimum and average 5% percentile) for the distance between points using 3b_dist_Q05.R. Results will be saved in SET_dict_cyto.txt
 5. Create SET_data.txt, the transposed version of SET_data_full.txt using 3_Transposed_aCGH.R
 6. Run the homology (B0 or B1) feeding SET_data.txt into 4_hom_stats_parts.py. You will need to run it as many times as the number of parts used to split the dictionary
 7. Compute the un-adjusted p-values using 5_sig_pcalc_parts.R. You will need to run it as many times as the number of parts used to split the dictionary
