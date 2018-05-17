@@ -11,7 +11,7 @@ args = commandArgs();
 dataSet <- args[4];
 
 # Only for debugging
-# dataSet<-"NCMAD"
+ dataSet<-"NCMAD"
 
 begPath <- "~/Research";
 dim<-"2";
@@ -34,6 +34,7 @@ data <- read.table(dataPath, header=T, sep='\t', comment.char='');
 # BEGIN PROGRAM
 
 Avg_Min<-c()
+Avg_Max<-c()
 Avg_Q05<-c()
 Avg_Q25<-c()
 # Reading dictionary to go segment by segment
@@ -48,6 +49,7 @@ for (i in 1:nrow(chrDict)) {
   
   # Initializing
   minAllPats<-c();
+  maxAllPats<-c();
   sum<-0;
   sum2<-0;
   
@@ -56,16 +58,19 @@ for (i in 1:nrow(chrDict)) {
     cloud<-cbind(data[(beg+1):(end+1),pat], c(data[(beg+2):(end+1),pat], data[(beg+1),pat]))
     dist<-dist(cloud, method="euclidean")
     minAllPats<-c(minAllPats,min(dist))
+    maxAllPats<-c(maxAllPats,max(dist))
     sum<-sum+quantile(dist,0.05)
     sum2<-sum2+quantile(dist,0.25)
   }
   Avg_Min<-c(Avg_Min,mean(minAllPats))
+  Avg_Max<-c(Avg_Max,mean(maxAllPats))
   Avg_Q05<-c(Avg_Q05,sum/(ncol(data)-5))
   Avg_Q25<-c(Avg_Q25,sum2/(ncol(data)-5))
 }
 chrDict$Avg_Min<-Avg_Min
 chrDict$Avg_Q05<-Avg_Q05
 chrDict$Avg_Q25<-Avg_Q25
+chrDict$Avg_Max<-Avg_Max
 
 # Let's save these statistics in the dictionary   
 write.table(chrDict,chrDictPath, sep='\t', row.names=FALSE)
