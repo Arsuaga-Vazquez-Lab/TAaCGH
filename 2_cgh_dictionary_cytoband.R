@@ -57,6 +57,11 @@ slice <- function(x,n) {
 
 
 begPath <- "~/Research";
+DictPath <- paste(begPath, 'Data', dataSet,subdir, sep='/');
+
+if(!file.exists(DictPath)) {
+  dir.create(DictPath)
+}
 
 ###############################
 # READ aCGH FILE
@@ -168,12 +173,15 @@ if(action == "arms") {
 }
 
 # Split up the dictionary
+
 indices <- c(1:nrow(dict));
 partsList <- slice(indices, ceiling(nrow(dict) / numParts));
 for(i in c(1:length(partsList)))
 {
 	partDictFile <- paste(dataSet, '_dict_', i, '.txt', sep='');
 	partDictPath <- paste(begPath, 'Data', dataSet,subdir, partDictFile, sep='/');
+	
+	
 	
 	print(dict[partsList[[i]], ]);
 	
