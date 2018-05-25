@@ -9,9 +9,11 @@
 args = commandArgs();
 
 dataSet <- args[4];
+subdir <-  args[5];
 
 # Only for debugging
- dataSet<-"NCMAD"
+ dataSet <-"kwek8p11q"
+ subdir <- "arms"
 
 begPath <- "~/Research";
 dim<-"2";
@@ -21,7 +23,7 @@ dim<-"2";
 
 # Read the complete chromosome dictionary data
 chrDictFile <- paste(dataSet, "_dict_cyto.txt", sep="");
-chrDictPath <- paste(begPath, "Data", dataSet, chrDictFile, sep="/");
+chrDictPath <- paste(begPath, "Data", dataSet, subdir, chrDictFile, sep="/");
 chrDict <- read.table(chrDictPath, header=TRUE, sep="\t");
 print(chrDictPath);
 
