@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[2]:
+# In[10]:
 
 import csv, math, sys, os, tempfile, subprocess, re, string
 from functions_io import *
@@ -21,7 +21,7 @@ from functions_cgh import *
 # results for homology will be saved under /Results/dataSet
 
 # EXAMPLE
-# > python 4_hom_stats_parts.py set 1 2 0.01 subdir
+# > python 4_hom_stats_parts.py set 1 2 0.01 subdir comb
 
 dataSet = sys.argv[1]
 homDim = int(sys.argv[2])
@@ -30,17 +30,17 @@ epsIncr = round(float(sys.argv[4]), 3)
 subdir = sys.argv[5]
 
 
-# In[3]:
+# In[11]:
 
 # In case of running from the console
-#dataSet = 'kwek8p11q'
-#homDim = 1
-#partNum = 1
-#epsIncr = 0.1
-#subdir = 'arms'
+dataSet = 'kwek8p11q'
+homDim = 2
+partNum = 1
+epsIncr = 0.1
+subdir = 'combining'
 
 
-# In[4]:
+# In[12]:
 
 
 #################################################
@@ -52,7 +52,7 @@ def makeDirectory(path):
     os.makedirs(path)
 
 
-# In[5]:
+# In[13]:
 
 #################################################
 # BEGIN PROGRAM
@@ -68,7 +68,7 @@ dictList = readFile(dictPath, "\t", "int")
 dictList.pop(0)
 
 
-# In[6]:
+# In[14]:
 
 # Reading data
 dataFile = "%s_data.txt" % (dataSet)
@@ -79,7 +79,7 @@ inputList.pop(0)
 inputList.pop(0)
 
 
-# In[20]:
+# In[15]:
 
 # Using dimension 2 as window
 cloudDim = 2
@@ -89,7 +89,7 @@ resultsPath = os.path.join(begPath, "Results", dataSet, subdir, repr(cloudDim)+"
 resultsPath
 
 
-# In[22]:
+# In[16]:
 
 # Go through each row of the dictionary list to get all chromosome and arm combinations.
 for row in dictList:
@@ -105,6 +105,8 @@ for row in dictList:
     arm2 = row[5]
     beg2 = row[6]
     end2 = row[7]
+    
+    seg = row[8]
 	
 	
     # Store the Betti numbers for all patients in a list containing as many lists as homDim - 1.
@@ -113,7 +115,7 @@ for row in dictList:
     # Go through the individual samples.
     for m in range(len(inputList)):
 		
-        print "(Homology) On combination %d %s %d %s and patient %d of %d" % (chr1,arm1,chr2,arm2,(m+1), len(inputList))
+        print "(Homology) On combination %d %s %d %s seg %d and patient %d of %d" % (chr1,arm1,chr2,arm2,seg, (m+1), len(inputList))
             
         #################################################
         # Generate data for use in jPlex and run it.
@@ -149,12 +151,12 @@ for row in dictList:
             
             # File to write the intervals. Writing is handled by beanshell.
             makeDirectory(resultsPath + "/" + repr(chr1))
-            intFile = "Inter_%dD_hom%d_%s_%d%s_%d%s_pat%d.txt" % (cloudDim, homDim, dataSet, chr1, arm1,chr2, arm2,(m+1))
+            intFile = "Inter_%dD_hom%d_%s_%d%s_%d%s_pat%d_seg%d.txt" % (cloudDim, homDim, dataSet, chr1, arm1,chr2, arm2,(m+1),seg)
             intPath = os.path.join(resultsPath, repr(chr1), intFile)
             
             # When you have time, try going back and using tempfile for this. Weird that you couldn't get it to work the first time.
             # Create the bash file. The names will be unique so we can run in parallel with no problem.
-            bashName = "bash%d%s%d_%d%s%d_%d%d%s.bsh" % (chr1, arm1, beg1,chr2, arm2, beg2, cloudDim, m, dataSet)
+            bashName = "bash%d%s%d_%d%s%d_s%d_%d%d%s.bsh" % (chr1, arm1, beg1,chr2, arm2, beg2, seg, cloudDim, m, dataSet)
             bashFile = open(bashName, 'w')
 				
             bashFile.write('pcloud = Plex.EuclideanArrayData("'+cloudFile.name+'");\n')
@@ -263,7 +265,7 @@ for row in dictList:
 		
     # Write the betti counts for all the patients in this chromosome arm to a file.
     for hDim in range(len(bettiNums)):
-        bettiPath = "%s/B%d_%dD_%s_%d%s_%d%s.txt" % (resultsPath, hDim, cloudDim, dataSet, chr1, arm1,chr2, arm2)
+        bettiPath = "%s/B%d_%dD_%s_%d%s_%d%s_seg%d.txt" % (resultsPath, hDim, cloudDim, dataSet, chr1, arm1,chr2, arm2, seg)
         writeFile(bettiNums[hDim], bettiPath, "\t")
 
 
