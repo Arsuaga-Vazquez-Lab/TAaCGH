@@ -17,7 +17,7 @@
 # 4. param (B0, B1)
 # 5. phenotype (ERBB2, basal, test, sim, etc)
 # 6. dataSet (SET, etc)
-# 7. subdir (where the dictionaries where saved)
+# 7. subdir (where the dictionaries for this case were saved)
 
 # EXAMPLE
 # R --slave --args B0 test set < 7_vis_curves.R
@@ -29,25 +29,27 @@ args = commandArgs();
 param <- args[4];
 phenotype <- args[5];
 dataSet <- args[6];
-subdir <- args[7];
+subdir <-  args[7];
 
 # for debugging purposes only
- param <- "B0";
- phenotype <- "both8p11q";
- dataSet <- "kwek8p11q";
- subdir <-  "arms";
-   
+param <- "B0";
+phenotype <- "both8p11q";
+dataSet <- "kwek8p11q";
+subdir <- "arms"
+
 ###############################
 # READ FILES
 
 # Establish the beginning path
 begPath <- "~/Research";
 
-srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
+#srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
+#source(srcPath);
+srcPath <- paste(begPath, "Code", "combining", "functions_sig_comb.R", sep="/");
 source(srcPath);
 
 # Read the file with significant sections
-begName <- paste(param, phenotype, dataSet, "pvals_FDRsig", sep="_");
+begName <- paste(param, phenotype, dataSet, "pvals_comb_FDRsig", sep="_");
 Path <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
 filePath <- paste(Path, "/", begName,".txt", sep="");
 print(filePath);
@@ -68,7 +70,7 @@ phen1num<-length(phen1indices);
 phen2num<-length(phen2indices);
 
 # Ensure the folder we are going to write to exists
-curveFolder = paste(begPath, 'Results', dataSet, subdir, 'vis', 'curves', "2D", param, phenotype, sep='/');
+curveFolder = paste(begPath, 'Results', dataSet,subdir, 'vis', 'curves', "2D", param, phenotype, sep='/');
 if(!file.exists(curveFolder)) {
 dir.create(curveFolder, recursive=TRUE);
 }
@@ -77,9 +79,10 @@ dir.create(curveFolder, recursive=TRUE);
 # Go through the rows of the file with significant sections
 for(i in c(1:nrow(sig_sections)))
 {
-	chr <- sig_sections$Chr[i];
-	arm <- as.vector(sig_sections$Arm[i]);
-	chrArm <- paste(chr, arm, sep="");
+	chrArm1 <- as.vector(sig_sections$ChrArm1[i]);
+	chrArm2 <- as.vector(sig_sections$ChrArm2[i]);
+	chrArm <- paste(chrArm1,"_",chrArm2, sep="")
+	chrArm
 	seg <- sig_sections$Segment[i];
 	
 	print(paste("On chromosome ", chrArm, " segment ", seg,  sep=""));
@@ -90,7 +93,7 @@ for(i in c(1:nrow(sig_sections)))
 	
 	
 	# generating the ith curveMeans
-	curvesMeans_i<-curvesMeans(begPath=begPath, dataSet=dataSet, param=param, dim=2, chrArm=chrArm, phen1indices=phen1indices, phen2indices=phen2indices, seg=seg);
+	curvesMeans_i<-curvesMeansComb(begPath=begPath, dataSet=dataSet, param=param, dim=2, chrArm=chrArm, phen1indices=phen1indices, phen2indices=phen2indices, seg=seg);
 	phen1curve <- curvesMeans_i$test
 	phen2curve <- curvesMeans_i$control
 	yMax <- max(max(phen1curve), max(phen2curve));
@@ -98,7 +101,7 @@ for(i in c(1:nrow(sig_sections)))
 	x<-seq(from=0,to=xMax,by=0.01);
 	
 	# generating the ith plot
-	title <- paste(param, " curves for ", phenotype, " (", phen1num, " blue) vs Non-", phenotype, " (", phen2num, " red) on ", chr, arm, ".s", seg, " in 2D for ", dataSet, " data", sep="");
+	title <- paste(param, " curves for ", phenotype, " (", phen1num, " blue) vs Non-", phenotype, " (", phen2num, " red) on ", chrArm, ".s", seg, " in 2D for ", dataSet, " data", sep="");
 	pdf(curvePath, width=9, height=6);
 	par(mfrow=c(1,1), cex.lab=1.2, cex.main=1.2);
 	plot(x,phen1curve, type="p", pch=20, col="blue", ylim=c(0, yMax), xlab="Epsilon", ylab=param);
