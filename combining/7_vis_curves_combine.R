@@ -32,10 +32,10 @@ dataSet <- args[6];
 subdir <-  args[7];
 
 # for debugging purposes only
-param <- "B0";
+param <- "B1";
 phenotype <- "both8p11q";
 dataSet <- "kwek8p11q";
-subdir <- "arms"
+subdir <- "combE01"
 
 ###############################
 # READ FILES
@@ -49,7 +49,9 @@ srcPath <- paste(begPath, "Code", "combining", "functions_sig_comb.R", sep="/");
 source(srcPath);
 
 # Read the file with significant sections
-begName <- paste(param, phenotype, dataSet, "pvals_comb_FDRsig", sep="_");
+begName <- paste(param, phenotype, dataSet, subdir,"pvals","FDRsig", sep="_");
+# use the following line to get all curves (not only significant)
+#begName <- paste(param, phenotype, dataSet, subdir,"pvals","FDR", sep="_");
 Path <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
 filePath <- paste(Path, "/", begName,".txt", sep="");
 print(filePath);
@@ -70,7 +72,7 @@ phen1num<-length(phen1indices);
 phen2num<-length(phen2indices);
 
 # Ensure the folder we are going to write to exists
-curveFolder = paste(begPath, 'Results', dataSet,subdir, 'vis', 'curves', "2D", param, phenotype, sep='/');
+curveFolder = paste(begPath, 'Results', dataSet,subdir, 'vis', 'curves', param, phenotype, sep='/');
 if(!file.exists(curveFolder)) {
 dir.create(curveFolder, recursive=TRUE);
 }
@@ -104,8 +106,15 @@ for(i in c(1:nrow(sig_sections)))
 	title <- paste(param, " curves for ", phenotype, " (", phen1num, " blue) vs Non-", phenotype, " (", phen2num, " red) on ", chrArm, ".s", seg, " in 2D for ", dataSet, " data", sep="");
 	pdf(curvePath, width=9, height=6);
 	par(mfrow=c(1,1), cex.lab=1.2, cex.main=1.2);
+#	plot(x,phen1curve, type="p", pch=20, col="blue", ylim=c(0, yMax), xlab="Epsilon", ylab=param);
+#	points(x,phen2curve, pch=20, col="red");
+#	plot(x,phen1curve, type="o", pch=20, col="blue", ylim=c(0, yMax), xlab="Epsilon", ylab=param);
+	# smooth line
 	plot(x,phen1curve, type="p", pch=20, col="blue", ylim=c(0, yMax), xlab="Epsilon", ylab=param);
+	lines(spline(x,phen1curve, method='n', n=250), col="blue")
 	points(x,phen2curve, pch=20, col="red");
+	#lines(x,phen2curve, pch=20, col="red");
+	lines(spline(x,phen2curve, method='n', n=250),col="red")
 	title(title, adj=0);
 	dev.off();
 }
