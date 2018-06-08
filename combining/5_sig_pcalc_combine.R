@@ -57,12 +57,12 @@ subdir <- args[10];
  
 # for debugging purposes only
 param <- "B0";
-phenotype <- "both8p11q";
-dataSet <- "kwek8p11q";
+phenotype <- "X70gene_poor";
+dataSet <- "horlings";
 partNum <- "1";
-action<- "arms";
+action<- "sections";
 outliers <- "no";
-subdir <- "arms";
+subdir <- "sects";
 
 ###############################
 # READ FILES
@@ -84,7 +84,7 @@ srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
 source(srcPath);
 
 # Read the chromosome dictionary data
-chrDictFile <- paste(dataSet, "_dict_comb_", partNum, ".txt", sep="");
+chrDictFile <- paste(dataSet, "_dict_", subdir, "_", partNum, ".txt", sep="");
 chrDictPath <- paste(begPath, "Data", dataSet, subdir, chrDictFile, sep="/");
 chrDict <- read.table(chrDictPath, header=TRUE, sep="\t");
 print(paste("dictPath",chrDictPath, sep=" "));
@@ -113,7 +113,7 @@ print(paste("There are ", phen2num, " phenotype2", sep=""));
 
 
 # Write path for p-values and header
-uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_pvals_comb_", partNum, ".txt", sep="");
+uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_pvals_", subdir,"_", partNum, ".txt", sep="");
 uncorrFolder <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
 print(paste("dictResults",uncorrFolder, sep=" "));
 
@@ -124,7 +124,7 @@ if(!file.exists(uncorrFolder)) {
 uncorrPath <- paste(uncorrFolder, uncorrFile, sep="/");
 
 # Create a container for the p-value list
-pvals <- c();
+pvals <- c()
 
 for(i in c(1:nrow(chrDict)))
 {
