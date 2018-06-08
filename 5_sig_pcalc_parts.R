@@ -84,7 +84,7 @@ srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
 source(srcPath);
 
 # Read the chromosome dictionary data
-chrDictFile <- paste(dataSet, "_dict_", subdir,"_",partNum, ".txt", sep="");
+chrDictFile <- paste(dataSet,"_",subdir, "_dict_", partNum, ".txt", sep="");
 #chrDictPath <- paste(begPath, "Data", dataSet, chrDictFile, sep="/");
 chrDictPath <- paste(begPath, "Data", dataSet, subdir, chrDictFile, sep="/");
 chrDict <- read.table(chrDictPath, header=TRUE, sep="\t");
