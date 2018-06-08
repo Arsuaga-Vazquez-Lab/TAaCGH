@@ -41,11 +41,11 @@ segLength <- as.integer(args[7]);
 subdir <- args[8];
 
 # # to run locally
-# dataSet <- "horlings";
-# numParts <- 7;
-# action <- "arms";
+# dataSet <- "kwek8p11q";
+# numParts <- 1;
+# action <- "sections";
 # segLength <- 20;
-# subdir <- "arms";
+# subdir <- "sects";
 
 ###############################
 # FUNCTIONS NEEDED
@@ -117,7 +117,7 @@ for(chrom in chroms) {
 
 				if(action == "arms") {
 					dict <- rbind(dict, c(chrom, arm, beg, end, end-beg, 1));
-				} else if(action == "segments") {
+				} else if(action == "sections") {
 					# Initialize variables to track location of segment for while loop
 					segNum <- 1;
 					#segLength <- 20;
@@ -166,7 +166,7 @@ for(chrom in chroms) {
 if(action == "arms") {
 	# Change column names
 	colnames(dict) <- c("Chrom", "Arm", "Beg", "End", "Length","OneSeg");
-} else if(action == "segments") {
+} else if(action == "sections") {
 	# Change column names
 	colnames(dict) <- c("Chrom", "Arm", "Beg", "End", "Length", "Segment", "bpStart", "bpEnd", "CytoStart", "CytoEnd");
 #	colnames(dict) <- c("Chrom", "Arm", "Beg", "End", "Length", "Segment");
