@@ -30,31 +30,31 @@
 # R --vanilla --args bergamaschiMADMA3_sect B0 Luminal_A 7 10000 0.05 subdir< 6_FDR.R
 
 # Get the command line arguments
-args = commandArgs();
- 
-file <- args[4];
+# args = commandArgs();
+#  
+# file <- args[4];
 param <- args[5];
 phen <- args[6];
 parts <- args[7];
 perm <- as.numeric(args[8]);
 sig <- as.numeric(args[9]);
-subdir <- args[10]; 
+subdir <- args[10];
 
 # Only for debugging purposes
-# file <- "bergamaschi1pMADMA3";
-# param <- "B0";
-# phen <- "ErbB2";
+# file <- "kwek8p11q";
+# param <- "B1";
+# phen <- "both8p11q";
 # parts <- 1;
 # perm <- 10000;
 # sig <- 0.05;
-# subdir <- "valHorl";
+# subdir <- "sects";
 
 # Working directory
 begPath <- "~/Research";
 
 ######## CREATING A SINGLE P-VALUE FILE FROM THE PARTS ###########
 # Read the first file
-begName <- paste(param, phen, file, "pvals", sep="_");
+begName <- paste(param, phen, file, "pvals",subdir, sep="_");
 first <- paste(begName, "1.txt", sep="_");
 Path <- paste(begPath, "Results", file, subdir, "significance", "pvals", sep="/");
 filePath <- paste(Path, first, sep="/");
