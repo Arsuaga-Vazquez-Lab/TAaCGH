@@ -32,10 +32,10 @@ dataSet <- args[6];
 subdir <- args[7];
 
 # for debugging purposes only
- param <- "B0";
- phenotype <- "both8p11q";
- dataSet <- "kwek8p11q";
- subdir <-  "arms";
+# param <- "B1";
+# phenotype <- "both8p11q";
+# dataSet <- "kwek8p11q";
+# subdir <-  "sects";
    
 ###############################
 # READ FILES
@@ -47,7 +47,9 @@ srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
 source(srcPath);
 
 # Read the file with significant sections
-begName <- paste(param, phenotype, dataSet, "pvals_FDRsig", sep="_");
+begName <- paste(param, phenotype, dataSet, subdir,"pvals_FDRsig", sep="_");
+# use the following line to see all curves (not only significant)
+#begName <- paste(param, phenotype, dataSet, subdir,"pvals","FDR", sep="_");
 Path <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
 filePath <- paste(Path, "/", begName,".txt", sep="");
 print(filePath);
