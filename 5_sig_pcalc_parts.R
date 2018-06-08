@@ -40,7 +40,6 @@
 # 10. subdir  a directory within /dataSet dir to read the dictionaries
 
 # EXAMPLE
-# R --vanilla --args B1 Basal horlings_arms 3 arms yes< 5_sig_pcalc_parts_new_out.R
 # R --vanilla --args B0 Her2 NCMAD 10 sections no valHorl< 5_sig_pcalc_parts.R
 #  
 
@@ -149,8 +148,8 @@ for(i in c(1:nrow(chrDict)))
 	print(paste("On dimension ", dim, sep=""));
 		
 	# Read in data regardless of phenotype
-	dataFile <- paste(param, "_", dim, "D_", dataSet, "_", chrArm, "_seg", seg,".txt", sep="");
-	dataPath <- paste(begPath, "/Results/", dataSet, "/", dim, "D/", paramType, "/", dataFile, sep="");
+	dataFile <- paste(param, "_", dim, "D_", dataSet, "_", subdir, "_", chrArm, "_seg", seg,".txt", sep="");
+	dataPath <- paste(begPath, "/Results/", dataSet, "/", subdir, "/", dim, "D/", paramType, "/", dataFile, sep="");
 		
 	print(dataPath);
 		
