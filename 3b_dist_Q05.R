@@ -12,8 +12,8 @@ dataSet <- args[4];
 subdir <-  args[5];
 
 # Only for debugging
- dataSet <-"kwek8p11q"
- subdir <- "arms"
+# dataSet <-"kwek8p11q"
+# subdir <- "arms"
 
 begPath <- "~/Research";
 dim<-"2";
