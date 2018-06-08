@@ -1,5 +1,5 @@
 # This program is "new" because it allows you to work with full arms as well as sections
-# and is out becuase allows you to handle outliers
+# and is out because allows you to handle outliers
 #################################################
 # USAGE
 # 
@@ -57,12 +57,12 @@ subdir <- args[10];
  
 # for debugging purposes only
 # param <- "B0";
-# phenotype <- "TP53_mut";
-# dataSet <- "bergamaschi_sect";
-# partNum <- "11";
-# action<- "arms";
-# outliers <- "yes";
-# subdir <- "valHorl";
+# phenotype <- "both8p11q";
+# dataSet <- "kwek8p11q";
+# partNum <- "1";
+# action<- "sections";
+# outliers <- "no";
+# subdir <- "sects";
 
 ###############################
 # READ FILES
@@ -84,7 +84,7 @@ srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
 source(srcPath);
 
 # Read the chromosome dictionary data
-chrDictFile <- paste(dataSet, "_dict_", partNum, ".txt", sep="");
+chrDictFile <- paste(dataSet, "_dict_", subdir,"_",partNum, ".txt", sep="");
 #chrDictPath <- paste(begPath, "Data", dataSet, chrDictFile, sep="/");
 chrDictPath <- paste(begPath, "Data", dataSet, subdir, chrDictFile, sep="/");
 chrDict <- read.table(chrDictPath, header=TRUE, sep="\t");
@@ -114,7 +114,7 @@ print(paste("There are ", phen2num, " phenotype2", sep=""));
 
 
 # Write path for p-values and header
-uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_pvals_", partNum, ".txt", sep="");
+uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_pvals_", subdir,"_",partNum, ".txt", sep="");
 #uncorrFolder <- paste(begPath, "Results", dataSet, "significance", "pvals", sep="/");
 uncorrFolder <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
 print(paste("dictResults",uncorrFolder, sep=" "));
