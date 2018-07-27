@@ -66,7 +66,7 @@ def makeDirectory(path):
 begPath = os.path.join(os.getenv('HOME'), "Research")
 
 # Set the paths for the dictionary, and data files
-dictFile = "%s_dict_%d.txt" % (dataSet, partNum)
+dictFile = "%s_%s_dict_%d.txt" % (dataSet, subdir, partNum)
 #dictPath = os.path.join(begPath, "Data",dataSet, dictFile)
 dictPath = os.path.join(begPath, "Data", dataSet, subdir, dictFile)
 
@@ -86,7 +86,7 @@ dictList.pop(0)
 cloudDim = 2
  
 # Establish the results directory
-resultsPath = os.path.join(begPath, "Results", dataSet, repr(cloudDim)+"D", "Homology")
+resultsPath = os.path.join(begPath, "Results", dataSet, subdir, repr(cloudDim)+"D", "Homology")
 
 # Go through each row of the dictionary list to get all chromosome and arm combinations.
 for row in dictList:
