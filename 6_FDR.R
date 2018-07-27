@@ -41,13 +41,13 @@ sig <- as.numeric(args[9]);
 subdir <- args[10];
 
 # Only for debugging purposes
-# file <- "kwek8p11q";
-# param <- "B1";
-# phen <- "both8p11q";
-# parts <- 1;
-# perm <- 10000;
-# sig <- 0.05;
-# subdir <- "sects";
+#file <- "horlings";
+#param <- "B0";
+#phen <- "Hist_grade3";
+#parts <- 8;
+#perm <- 10000;
+#sig <- 0.05;
+#subdir <- "sect";
 
 # Working directory
 begPath <- "~/Research";
@@ -56,7 +56,7 @@ begPath <- "~/Research";
 # Read the first file
 begName <- paste(param, phen, file, subdir, "pvals", sep="_");
 first <- paste(begName, "1.txt", sep="_");
-Path <- paste(begPath, "Results", file, subdir, "significance", "pvals", sep="/");
+Path <- paste(begPath, "Results", file, subdir, "significance", "pvals", param, phen, sep="/");
 filePath <- paste(Path, first, sep="/");
 print(filePath);
 all_fdr <- read.table(filePath, header=TRUE, sep="\t");
