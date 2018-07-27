@@ -76,7 +76,7 @@ randomize <- function(df1, df2, fill, Replace_Subject=FALSE, Nitrs=10000)
 
 ########## FUNCTION curvesMeans
 
-curvesMeans<-function(begPath, dataSet, param, dim, chrArm, phen1indices,phen2indices,seg=0){
+curvesMeans<-function(begPath, dataSet, subdir, param, dim, chrArm, phen1indices,phen2indices,seg=0){
   # Returns a data frame with two numeric vectors: test and control.
   # test and control contain the mean of conected components as epsilon increase
   # if we are running segments use seg=segment number
@@ -85,11 +85,11 @@ curvesMeans<-function(begPath, dataSet, param, dim, chrArm, phen1indices,phen2in
   
   # Read in data regardless of phenotype (jagged files from ~/Results/SET/2D/Homology)
   if (seg==0) {
-    dataFile <- paste(param, "_", dim, "D_", dataSet, "_", chrArm, ".txt", sep="");
+    dataFile <- paste(param, "_", dim, "D_", dataSet, "_", subdir,"_",chrArm, ".txt", sep="");
   } else {
-    dataFile <- paste(param, "_", dim, "D_", dataSet, "_", chrArm,"_seg",seg, ".txt", sep="");
+    dataFile <- paste(param, "_", dim, "D_", dataSet, "_",subdir,"_", chrArm,"_seg",seg, ".txt", sep="");
   }
-  dataPath <- paste(begPath, "/Results/", dataSet, "/", dim, "D/Homology/", dataFile, sep="");
+  dataPath <- paste(begPath, "/Results/", dataSet, "/",subdir,"/", dim, "D/Homology/", dataFile, sep="");
   
   print(dataPath);
   
