@@ -22,7 +22,7 @@ dim<-"2";
 # READ FILES
 
 # Read the complete chromosome dictionary data
-chrDictFile <- paste(dataSet, "_dict_cyto.txt", sep="");
+chrDictFile <- paste(dataSet,subdir, "dict_cyto.txt", sep="_");
 chrDictPath <- paste(begPath, "Data", dataSet, subdir, chrDictFile, sep="/");
 chrDict <- read.table(chrDictPath, header=TRUE, sep="\t");
 print(chrDictPath);
