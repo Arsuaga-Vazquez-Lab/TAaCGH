@@ -1,6 +1,6 @@
 # This program generate B0 curves for the significant sections resultant
 # from 6_FDR listed under xxxx_FDRsig.txt and will save them under 
-# ~Research/Results/dataSet/vis/curves/2D/B0/phenotype
+# ~Research/Results/dataSet/subdir/vis/curves/2D/B0/phenotype
 
 # INPUT
 # 1. The phenotype file where the patient names matches the order from the aCGH file with the log2 ratios.
@@ -17,11 +17,12 @@
 # 4. param (B0, B1)
 # 5. phenotype (ERBB2, basal, test, sim, etc)
 # 6. dataSet (SET, etc)
-# 7. subdir (where the dictionaries where saved)
+# 7. action: arms, sect (for sections)
+# 8. subdir (where the dictionaries where saved)
 
 # EXAMPLE
 # R --slave --args B0 test set < 7_vis_curves.R
-# R --slave --args B0 TP53_mut horlings_sect < 7_vis_curves.R
+# R --slave --args B0 TP53_mut horlings sect valHorlings< 7_vis_curves.R
 
 # Get the command line arguments
 args = commandArgs();
@@ -29,13 +30,14 @@ args = commandArgs();
 param <- args[4];
 phenotype <- args[5];
 dataSet <- args[6];
-subdir <- args[7];
+action <- args[7];
+subdir <- args[8];
 
 # for debugging purposes only
-# param <- "B1";
-# phenotype <- "both8p11q";
-# dataSet <- "kwek8p11q";
-# subdir <-  "sects";
+# param <- "B0";
+# phenotype <- "X70gene_poor";
+# dataSet <- "horlings";
+# subdir <-  "sect";
    
 ###############################
 # READ FILES
@@ -50,7 +52,7 @@ source(srcPath);
 begName <- paste(param, phenotype, dataSet, subdir,"pvals_FDRsig", sep="_");
 # use the following line to see all curves (not only significant)
 #begName <- paste(param, phenotype, dataSet, subdir,"pvals","FDR", sep="_");
-Path <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
+Path <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals",param, phenotype, sep="/");
 filePath <- paste(Path, "/", begName,".txt", sep="");
 print(filePath);
 sig_sections <- read.table(filePath, header=TRUE, sep="\t");
@@ -70,7 +72,7 @@ phen1num<-length(phen1indices);
 phen2num<-length(phen2indices);
 
 # Ensure the folder we are going to write to exists
-curveFolder = paste(begPath, 'Results', dataSet, subdir, 'vis', 'curves', "2D", param, phenotype, sep='/');
+curveFolder = paste(begPath, 'Results', dataSet, subdir, 'vis', 'curves', param, phenotype, sep='/');
 if(!file.exists(curveFolder)) {
 dir.create(curveFolder, recursive=TRUE);
 }
@@ -92,7 +94,7 @@ for(i in c(1:nrow(sig_sections)))
 	
 	
 	# generating the ith curveMeans
-	curvesMeans_i<-curvesMeans(begPath=begPath, dataSet=dataSet, param=param, dim=2, chrArm=chrArm, phen1indices=phen1indices, phen2indices=phen2indices, seg=seg);
+	curvesMeans_i<-curvesMeans(begPath=begPath, dataSet=dataSet, subdir=action, param=param, dim=2, chrArm=chrArm, phen1indices=phen1indices, phen2indices=phen2indices, seg=seg);
 	phen1curve <- curvesMeans_i$test
 	phen2curve <- curvesMeans_i$control
 	yMax <- max(max(phen1curve), max(phen2curve));
