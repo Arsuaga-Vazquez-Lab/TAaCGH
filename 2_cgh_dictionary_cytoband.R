@@ -189,7 +189,7 @@ for(i in c(1:length(partsList)))
 }
 
 # Setup and write the dictionary file
-dictFile <- paste(dataSet, "dict_cyto.txt", sep="_");
+dictFile <- paste(dataSet,subdir, "dict_cyto.txt", sep="_");
 dictPath <- paste(begPath, "Data", dataSet, subdir, dictFile, sep="/");
 
 write.table(dict, dictPath, sep='\t', row.names=FALSE);
