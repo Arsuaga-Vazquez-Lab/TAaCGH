@@ -35,12 +35,12 @@
 # 5. phenotype (ERBB2, basal, test, sim, etc)
 # 6. dataSet (SET, etc)
 # 7. partNum (an integer with the part from the dictionary)
-# 8. action: arms, sections
+# 8. action: arms, sect (for sections)
 # 9. outliers to remove: yes, no
 # 10. subdir  a directory within /dataSet dir to read the dictionaries
 
 # EXAMPLE
-# R --vanilla --args B0 Her2 NCMAD 10 sections no valHorl< 5_sig_pcalc_parts.R
+# R --vanilla --args B0 Her2 NCMAD 10 sect no valHorl< 5_sig_pcalc_parts.R
 #  
 
 # Get the command line arguments
@@ -55,13 +55,13 @@ outliers <- args[9];
 subdir <- args[10];
  
 # for debugging purposes only
-# param <- "B0";
-# phenotype <- "both8p11q";
-# dataSet <- "kwek8p11q";
-# partNum <- "1";
-# action<- "sections";
-# outliers <- "no";
-# subdir <- "sects";
+#param <- "B0";
+#phenotype <- "Hist_grade3";
+#dataSet <- "horlings";
+#partNum <- "8";
+#action<- "sect";
+#outliers <- "no";
+#subdir <- "sect";
 
 ###############################
 # READ FILES
@@ -113,9 +113,9 @@ print(paste("There are ", phen2num, " phenotype2", sep=""));
 
 
 # Write path for p-values and header
-uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_pvals_", subdir,"_",partNum, ".txt", sep="");
+uncorrFile <- paste(param, "_", phenotype, "_", dataSet, "_", subdir,"_pvals", "_",partNum, ".txt", sep="");
 #uncorrFolder <- paste(begPath, "Results", dataSet, "significance", "pvals", sep="/");
-uncorrFolder <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", sep="/");
+uncorrFolder <- paste(begPath, "Results", dataSet, subdir, "significance", "pvals", param, phenotype, sep="/");
 print(paste("dictResults",uncorrFolder, sep=" "));
 
 if(!file.exists(uncorrFolder)) {
@@ -135,7 +135,7 @@ for(i in c(1:nrow(chrDict)))
 	seg <- chrDict[i,6];
 	beg <- chrDict[i,3];
 	end <- chrDict[i,4];
-    if (action=="sections") {
+    if (action=="sect") {
 		bpStart <- chrDict[i,7];
 		bpEnd <- chrDict[i,8];
 		CytoStart <- as.vector(chrDict[i,9]);
@@ -148,8 +148,10 @@ for(i in c(1:nrow(chrDict)))
 	print(paste("On dimension ", dim, sep=""));
 		
 	# Read in data regardless of phenotype
-	dataFile <- paste(param, "_", dim, "D_", dataSet, "_", subdir, "_", chrArm, "_seg", seg,".txt", sep="");
-	dataPath <- paste(begPath, "/Results/", dataSet, "/", subdir, "/", dim, "D/", paramType, "/", dataFile, sep="");
+	#dataFile <- paste(param, "_", dim, "D_", dataSet, "_", subdir, "_", chrArm, "_seg", seg,".txt", sep="");
+	dataFile <- paste(param, "_", dim, "D_", dataSet, "_", action, "_", chrArm, "_seg", seg,".txt", sep="");
+	#dataPath <- paste(begPath, "/Results/", dataSet, "/", subdir, "/", dim, "D/", paramType, "/", dataFile, sep="");
+	dataPath <- paste(begPath, "/Results/", dataSet, "/", action, "/", dim, "D/", paramType, "/", dataFile, sep="");
 		
 	print(dataPath);
 		
@@ -213,7 +215,7 @@ for(i in c(1:nrow(chrDict)))
 	print(partNum);
 		
 	# Put the pvals in the container
-    if (action=="sections") {
+    if (action=="sect") {
 		pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, bpStart, bpEnd, CytoStart, CytoEnd, pval, stat, sumPos, sumNeg));
     } else {
         pvals <- rbind(pvals, c(chr, arm, dim, seg, phen1num_noOut, phen2num_noOut, beg, end, pval, stat, sumPos, sumNeg));
@@ -222,7 +224,7 @@ for(i in c(1:nrow(chrDict)))
 }
 
 # Rename columns and write the file
-if (action=="sections") {
+if (action=="sect") {
     colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End", "bpStart", "bpEnd", "CytoStart", "CytoEnd","P.Value", "Test.Stat", "AreaPos", "AreaNeg");
 } else {
     colnames(pvals) <- c("Chr", "Arm", "Dimension", "Segment", "TestNum", "CtrlNum", "Idx0.Beg", "Idx0.End","P.Value", "Test.Stat", "AreaPos", "AreaNeg");
