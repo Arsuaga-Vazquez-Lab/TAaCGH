@@ -1,4 +1,3 @@
-# Testing Git to show Javier
 # This programs creates the transposed version of the data set
 # to feed into hom_stats.py.
 
@@ -21,7 +20,6 @@
 args = commandArgs();
 
 dataSet <- args[4];
-
 
 
  CGH_start <- 6;
