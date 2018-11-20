@@ -2,30 +2,28 @@
 # USAGE
 #
 # Given a dataset, this code will compute the betti numbers for the point clouds created
-# from the aCGH data. Our datasets typically have around 23 chromosomes with both p and q
-# arms. To speed up the calculations we split the dictionary from 2_cgh_dictionary_cytoband.R into
-# parts that can be run simultaneously.
+# from the aCGH data from either all full arms or all sections of every arm and by patient.
+# To speed up the calculations 2_cgh_dictionary_cytoband.R splits the the work into parts
+# that can be run simultaneously.
 #
 # We utilize code from the Comptop group at Stanford (jplex) to compute the homology:
 # http://comptop.stanford.edu/u/programs/jplex/index.html.
 #
-# There is a newer version called javaPlex which is supposed to be much improved:
-# http://code.google.com/p/javaplex/
-#
 # Parameters: The epsilon increments for the filtration, epsIncr. The part number which
 # refers to the proper dictionary file, partNum.
 #
-# Input: 1) The tab delimited aCGH data arranged as previously mentioned in cgh_print_info.py.
-# A tab delimited dictionary file (from cgh_dictionary.R) which indicates the 0-based
+# Input: 1) The tab delimited transposed version of aCGH data arranged as mentioned in readme.docx.
+# The dictionary file (from cgh_dictionary.R) which indicates the 0-based
 # start and stop indices of the chromosome arms 2) Dictionary files 
 #
-# Output: Tab delimited file indicating which dimensions were calculated for a particular
-# chromosome arm (..._hom_dims_...). Tab delimited files for each chromosome arm and patient
-# combination giving the homology intervals. Tab delimited file where the rows are the patients
-# and the columns are the epsilon increments. An entry for patient i, epsilon j is the betti
-# number at epsilon j (can be recovered given epsIncr). For an aCGH file named SET and a 
-# specific chomosome arm combination "chrArm", these files will be saved under
-# ~/Results/SET/2D/Homology/B0_2D_SET_chrArm_seg.txt
+# Output:
+# It creates two different kind of files:
+# 1) Barcode files named Inter_2D_hom1_SET_ChromArm_patientNo_segNo.txt
+# under ~/Research/Results/dataSet/action/2D/Homology/Chromosome_number  (action: arms or sect)
+# 2) Jagged files (B0_2D_SET_ChromArm_segNo.txt) with the value for the homology for each patient (row)
+# at each increment for epsilon (columns). The Epsilon increment is saved for future reference in a
+# text file named Epsilon_XXX.txt. This file and all the jagged files will be saved under:
+# ~/Research/Results/SET/2D/Homology/B0_2D_SET_chrArm_seg.txt
 
 import csv, math, sys, os, tempfile, subprocess, re, string
 from functions_io import *
@@ -37,19 +35,18 @@ from functions_cgh import *
 # 2. homDim (usually 1 or 2, which computes B0 or (B0 and B1), respectively.
 # 3. partNum (a positive integer)
 # 4. epsIncr (usually 0.01 or 0.05)
-# 5. subdir the name of a subdir within /dataSet dir for this particular run
-# note: dataSet will be expected within /dataSet dir but diccionaries within subdir
-# results for homology will be saved under /Results/dataSet
+# 5. action (arms or sect) specify if you are running full arms or sections (as used in 2_cgh_dictionary_cytoband.R)
+# note: dataSet will be expected within Research/dataSet but diccionaries within a subfolder named arms or sect
+
 # 
 # EXAMPLE
-# > python 4_hom_stats_parts.py set 1 2 0.01
-# > python 4_hom_stats_parts.py set 1 2 0.01 subdir
+# > python 4_hom_stats_parts.py set 1 2 0.01 action
 
 dataSet = sys.argv[1]
 homDim = int(sys.argv[2])
 partNum = int(sys.argv[3])
 epsIncr = round(float(sys.argv[4]), 3)
-subdir = sys.argv[5]
+action = sys.argv[5]
 
 #################################################
 # FILE SPECIFIC FUNCTIONS
@@ -66,9 +63,9 @@ def makeDirectory(path):
 begPath = os.path.join(os.getenv('HOME'), "Research")
 
 # Set the paths for the dictionary, and data files
-dictFile = "%s_%s_dict_%d.txt" % (dataSet, subdir, partNum)
+dictFile = "%s_%s_dict_%d.txt" % (dataSet, action, partNum)
 #dictPath = os.path.join(begPath, "Data",dataSet, dictFile)
-dictPath = os.path.join(begPath, "Data", dataSet, subdir, dictFile)
+dictPath = os.path.join(begPath, "Data", dataSet, action, dictFile)
 
 dataFile = "%s_data.txt" % (dataSet)
 dataPath = os.path.join(begPath, "Data", dataSet, dataFile)
@@ -86,7 +83,7 @@ dictList.pop(0)
 cloudDim = 2
  
 # Establish the results directory
-resultsPath = os.path.join(begPath, "Results", dataSet, subdir, repr(cloudDim)+"D", "Homology")
+resultsPath = os.path.join(begPath, "Results", dataSet, action, repr(cloudDim)+"D", "Homology")
 
 # Go through each row of the dictionary list to get all chromosome and arm combinations.
 for row in dictList:
@@ -248,7 +245,7 @@ for row in dictList:
 		
     # Write the betti counts for all the patients in this chromosome arm to a file.
     for hDim in range(len(bettiNums)):
-        bettiPath = "%s/B%d_%dD_%s_%d%s_seg%d.txt" % (resultsPath, hDim, cloudDim, dataSet, chr, arm, seg)
+        bettiPath = "%s/B%d_%dD_%s_%s_%d%s_seg%d.txt" % (resultsPath, hDim, cloudDim, dataSet, action, chr, arm, seg)
         writeFile(bettiNums[hDim], bettiPath, "\t")
 
 # Saving in a text file the epsilon increment used for the homology
