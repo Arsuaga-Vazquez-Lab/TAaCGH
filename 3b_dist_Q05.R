@@ -15,7 +15,8 @@ subdir <-  args[5];
 # dataSet <-"kwek8p11q"
 # subdir <- "arms"
 
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 dim<-"2";
 
 ###############################
