@@ -28,6 +28,7 @@
 # EXAMPLE
 # Note: use vanilla when testing and slave when ready to avoid the log
 # R --vanilla --args set 8 arms 20 arms < 2_cgh_dictionary_cytoband.R
+# R --vanilla --args horlings 8 sections 20 sect < 2_cgh_dictionary_cytoband.R
 
 #library(gtools) #it looks it doesn't need this library
 
@@ -45,7 +46,7 @@ subdir <- args[8];
 # numParts <- 1;
 # action <- "sections";
 # segLength <- 20;
-# subdir <- "sects";
+# subdir <- "sect";
 
 ###############################
 # FUNCTIONS NEEDED
@@ -178,7 +179,7 @@ indices <- c(1:nrow(dict));
 partsList <- slice(indices, ceiling(nrow(dict) / numParts));
 for(i in c(1:length(partsList)))
 {
-	partDictFile <- paste(dataSet, '_dict_', i, '.txt', sep='');
+	partDictFile <- paste(dataSet, '_',subdir,'_dict_', i, '.txt', sep='');
 	partDictPath <- paste(begPath, 'Data', dataSet,subdir, partDictFile, sep='/');
 	
 	
