@@ -1,9 +1,9 @@
 # This program computes for each segment the minimum distance between points
-# aswell as 5% percentile and then take the average across patients
+# as well as 5% percentile and then take the average across patients
 # Avg_Min and Avg_Q05 in the dictionary
 
-# R --vanilla --args dataSet < dist_Q05.R
-# R --vanilla --args bergamaschi1p < dist_Q05.R
+# R --vanilla --args dataSet arms < 3b_dist_Q05.R
+# R --vanilla --args bergamaschi1p sect < 3b_dist_Q05.R
 
 # Get the command line arguments
 args = commandArgs();
