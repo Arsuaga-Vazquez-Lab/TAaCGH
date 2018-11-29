@@ -60,7 +60,10 @@ def makeDirectory(path):
 # BEGIN PROGRAM
 
 # Determine base path
-begPath = os.path.join(os.getenv('HOME'), "Research")
+#begPath = os.path.join(os.getenv('HOME'), "Research")
+# will take any starting point instead of HOME
+current = os.getcwd()
+begPath=os.path.abspath(os.path.join(current, os.pardir))
 
 # Set the paths for the dictionary, and data files
 dictFile = "%s_%s_dict_%d.txt" % (dataSet, action, partNum)
