@@ -57,7 +57,8 @@ slice <- function(x,n) {
 }
 
 
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 DictPath <- paste(begPath, 'Data', dataSet,subdir, sep='/');
 
 if(!file.exists(DictPath)) {
