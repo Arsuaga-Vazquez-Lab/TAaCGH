@@ -2,9 +2,10 @@
 # USAGE
 #
 # Given a dataset, this code will give the 0-based start and stop indices for
-# the sections in the chromosome arms.
+# the sections in the chromosome arms. The argument "subdir" allows you to create 
+#subdirectories to run modifications of the original directories if needed.
 #
-# Input: aCGH file with no missing values formatted as specified in README.txt
+# Input: aCGH file with no missing values formatted as specified in TAaCGH_Manual
 # If the name of the dataset is "set", the name of the file should end with "data_full.txt"
 # that is set_data_full.txt
 #
@@ -20,10 +21,11 @@
 # 4. dataSet: short name for dataSet (e.g. set)
 # 5. numParts: number of parts to split the dictionary. Usually 8
 # 6. action: arms, sections
-# 7. segLength: Section size (Best: 20 to 50). This will be the minimum number of probes
-#       needed to run a specific arm. In the case of arms it will take the full arm but 
-#       a value is needed (greater than the smaller arm number of clones)
+# 7. segLength: Section size (Best: 20 to 50). In the case of arms it will take the full arm, but
+#       segLength will be the minimum number of probes to run a specific arm.
 # 8. subdir  a directory within /dataSet dir to read the dictionaries
+#       use arms if action=arms or sect if action=sections
+#       you can use a different directory if running subsets of the original dictionaries
 
 # EXAMPLE
 # Note: use vanilla when testing and slave when ready to avoid the log
