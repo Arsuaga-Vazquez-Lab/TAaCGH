@@ -25,7 +25,7 @@ dataSet <- args[4];
  CGH_start <- 6;
 ###############################
 # READ FILES
-begPath <- "~/Research";
+begPath <- "..";
 	
 	dataFile <- paste(dataSet, "data", "full.txt", sep="_");
 	dataPath <- paste(begPath, "Data", dataSet, dataFile, sep="/");
