@@ -1,5 +1,5 @@
 # This programs creates the transposed version of the data set
-# to feed into hom_stats.py.
+# to feed into 4_hom_stats.py.
 
 # Input: xxxx_data_full.txt
 # Output: xxxx_data.txt
