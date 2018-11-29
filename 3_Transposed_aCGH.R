@@ -13,8 +13,8 @@
 
 # EXAMPLE
 # Note: use vanilla when testing and slave when ready to avoid the log
-# R --slave --args simC2  < Transposed_aCGH.R
-# R --vanilla --args set < 3_Transposed_aCGH.R
+# R --slave --args set  < 3_Transposed_aCGH.R
+# R --vanilla --args horlings < 3_Transposed_aCGH.R
 
 # Get the command line arguments
 args = commandArgs();
