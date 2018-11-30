@@ -6,6 +6,7 @@ Some TODOs for future developers of TAaCGH
 + Cleaning up the files from unused functions
 + Restructure/redesign to convert the set of scripts in a final product, preferable using only one script. A good starting point would be to collapse in one script: 4_hom_stats_parts.py, 5_sig_pcalc_parts.R and 6_FDR.R to rename it something like significant_sections.R. Scripts 1 to 3 are pre-processing and can be seen as tools
 + Improve outlier handling in 5_sig_pcalc_parts.R
++ Up to now 6_FDR.R can only by run when there is more than 1 part. It is easy to handled by making simple changes but need to be incoporated to the script, specially when the number of the part is different than one (which it is something we sometimes need to do when running B1 and trying to find amplicons)
 
 Some useful comments
 + CGH_start: you will see this variable in different programs and is VERY important. It indicates the program where does the information from the patients starts. Some times is the exact location of the first patient (in SET_dat_full.txt will be 6) but some times is that number minus 1 (5)
