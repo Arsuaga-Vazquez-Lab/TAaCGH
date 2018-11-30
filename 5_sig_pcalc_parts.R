@@ -4,13 +4,19 @@
 # USAGE
 # 
 # Given the jagged array files created by 4_hom_stats_parts.py,
-# this code will compute a p-value for each chromosome arm and dimension under investigation.
+# this code will compute a p-value for each chromosome arm or section.
 # We use permutation tests to arrive at the p-value, and the permutation aspects are located
 # in functions_sig.R.
 #
 # Note: The result is the collection of uncorrected p-values, FDR will be used in scripts to follow
-# Make sure to have adifferent name for the dataset in case you want to runit by arms and sections
-# for example: SET_arms and SET_sect as otherwise it might overwrite the first output
+#
+# limited functionality for outliers:
+# It is possible to add a column within the phenotype file to flag patients that are considered outliers
+# for such a case, use the word "outlier" as columname together with some useful identifier for you like
+# outlier17qs3 that could be read outlier in section 3 from Chromosome 17q. The script hasn't been fully
+# finished to handle outliers smoothly, you will need to create a dictionary part for which the outliers
+# will be removed for all sections. Also for now you can only have one column with the word outlier in it
+# This functionality still needs work.
 #
 # Input: The following tab delimited text files.
 # 1. The dictionary files from 2_cgh_dictionary_cytoband.R.
@@ -67,8 +73,10 @@ subdir <- args[10];
 # READ FILES
 
 # Establish the beginning path
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 
+# TODO: The following section needs cleaning as D and CC are not in use anymore
 # Determine "Homology" or "Networks" based on param
 if (identical(param,"D") || identical(param,"CC")) {
 	paramType <- "Networks";
@@ -79,7 +87,8 @@ if (identical(param,"D") || identical(param,"CC")) {
 }
 
 # The source code for the permutations
-srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
+#srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
+srcPath <- paste(begPath, "TAaCGH", "functions_sig.R", sep="/");
 source(srcPath);
 
 # Read the chromosome dictionary data
