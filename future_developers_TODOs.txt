@@ -4,9 +4,12 @@ Some TODOs for future developers of TAaCGH
 + update 1_impute_aCGH.R to work with any file, or remove it and modify the manual
 + 11_class_pat_seg.R: need to create a warning when adding columns to phenotype file to avoid overwriting variables
 + Cleaning up the files from unused functions
-+ Restructure/redesign to convert the set of scripts in a final product, preferable using only one script
++ Restructure/redesign to convert the set of scripts in a final product, preferable using only one script. A good starting point would be to collapse in one script: 4_hom_stats_parts.py, 5_sig_pcalc_parts.R and 6_FDR.R to rename it something like significant_sections.R. Scripts 1 to 3 are pre-processing and can be seen as tools
 
 Some useful comments
 + CGH_start: you will see this variable in different programs and is VERY important. It indicates the program where does the information from the patients starts. Some times is the exact location of the first patient (in SET_dat_full.txt will be 6) but some times is that number minus 1 (5)
 + 4_hom_stats.py: this program generates B0 and B1 curves for specific dimensions. Originally it was designed to generate with some kind of algorithm all the possible dimensions that could be used. Later on it was modified to run specific dimensions
 + Phenotype file: must programs use the phenotype. Originally, previous developers had the phenotype selection embedded in each program, that was problematic because each new data set had a different format. That was modified but remnants of the original coding might be still present, specially some unused functions
+
+Pending Research
++ The area between the curves does not take in consideration yet if test or control are on top. It might be also adding up areas where test is on top with areas where control is on top after each curve intersection. Research is pending on how to efficiently improve the statistic. Georgina Gonzalez did some research about it and share it with Javier Arsuaga. Machine learning was also thought to be aosmething to consider to approach the issue.
