@@ -1,6 +1,6 @@
-# TODO do I need to add I way to run a specific directory without running all the parts (like when you need to run a subset of the dictionary)? Need a parameter to tell the program to run a specific dictionary
 # This program will adjust the p-values from 5_sig_pcalc_parts.R for multiple comparisons using FDR
 # It will read the different files (parts) and will create a single file with adjusted p-value
+# for now manual modifications need to be done if there is only one part, specially if the number of that part is different to 1
 # This script will need to be run only once no matter how many parts were used to split the dictionary
 # "Idx0.Beg" and "Idx0.End" are the beginning and ending positions in the CGH file for the sections (0 start)
 
@@ -50,7 +50,8 @@ subdir <- args[10];
 #subdir <- "sect";
 
 # Working directory
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 
 ######## CREATING A SINGLE P-VALUE FILE FROM THE PARTS ###########
 # Read the first file
