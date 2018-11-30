@@ -1,19 +1,26 @@
 # This program generates profiles by patient (ie: bp vs log2 ratio CGH) for an specific arm
 # In one pdf you will have as many graphs as patients in an specific group
+
+# TODO: Pass arguments in an efficient way
+
 # Type in the data at the beginning with the chorm and arm for the graphs and phenotype
 # Make sure you include all the patients you need in the group as this program will not read the phenotype
 # modify the for loop for the name you used for the list of patients
-# This program may also add 2 or 4 lvertical lines to show where the segments start, you have to input the position for them at the end 
-# example in local: source("/Users/gina/Desktop/Gina/BioTec/Homology/Code Orig and Modified/myPaper/ind_prof_origpat_local.R");
-begPath <- "~/Research/";
+# This program may also add 2 or 4 vertical lines to show where the segments start, you have to input the position for them at the end 
+
+
 dataSet <- "horlings";
-cghStart <- 6;
 chrArm <- "4q";
 chr <- "4";
 arm <- "q";
 phenotype <- "Basal";
 subdir <- ""
 
+
+begPath <- "..";
+cghStart <- 6;
+
+# Reading the dataset
 dataPath <- paste(begPath, '/Data/', dataSet, '/', dataSet, '_data_full.txt', sep='');
 data <- read.table(dataPath, header=T, sep='\t');
 cgh <- data[, cghStart:ncol(data)];
@@ -29,7 +36,6 @@ print(paste("phenPath",phenPath, sep=" "));
 phen1indices <- which(phenData[,phenotype] == 1);
 phen1num<-length(phen1indices);
 print(paste("There are ", phen1num, " phenotype1", sep=""));
-
 
 
 	caIndices <- intersect(which(data$Chrom == chr), which(data$Arm == arm));
@@ -57,10 +63,15 @@ print(paste("There are ", phen1num, " phenotype1", sep=""));
 		profile.ylab <- 'log2 ratio';
 		
 #		bp <- data[caIndices, 5]; #kwek has bp on the 5th column
-		bp <- data[caIndices, 4]; # bp is the 4th column in horlings
+		bp <- data[caIndices, 4]/1000000; # bp is the 4th column in horlings
 		patData <- cgh[caIndices, p];
 		
 		plot(bp, patData, main=profile.title, xlab="", ylab="", ylim = c(minY, maxY), pch=20, type="o");
+		mtext(text = "Mbp", side = 1,#side 1 = bottom
+		      line = 2)
+		mtext(text = "Log2 Ratio",
+		      side = 2, #side 2 = left
+		      line = 2)
 #       plot(bp, patData, main=profile.title, xlab="", ylab="", ylim = c(-10, 10), pch=20, type="o");
 		abline(h=c(0), lty=2, col="black");
 		# abline(v=72021300, lty=3, col="black");
