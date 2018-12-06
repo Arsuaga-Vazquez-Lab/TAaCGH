@@ -1,6 +1,6 @@
 # This program generate B0 curves for the significant sections resultant
 # from 6_FDR listed under xxxx_FDRsig.txt and will save them under 
-# ~Research/Results/dataSet/subdir/vis/curves/2D/B0/phenotype
+# ~Research/Results/dataSet/subdir/vis/curves/B0/phenotype
 
 # INPUT
 # 1. The phenotype file where the patient names matches the order from the aCGH file with the log2 ratios.
@@ -45,7 +45,7 @@ subdir <- args[8];
 # Establish the beginning path
 begPath <- "~/Research";
 
-srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
+srcPath <- paste(begPath, "TAaCGH", "functions_sig.R", sep="/");
 source(srcPath);
 
 # Read the file with significant sections
