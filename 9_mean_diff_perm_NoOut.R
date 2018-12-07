@@ -16,7 +16,7 @@
 # OUTPUT
 # Two files saved under ~/Reseach/Results/SET/CenterMass. They are  "SET_mean_diff_perm_phenotype_seedxx.txt" and
 # "SET_mean_diff_perm_phenotype_seedxxsig.txt". The first file will contain the centers of mass for every arm
-# The second file will be a subset with only those clones with FDR<sig (smaller FDR than the
+# The second file will be a subset with only those arms with FDR<sig (smaller FDR than the
 # selected significance level). For the second file it will also determine if it is a gain or a loss
 # or if it is undetermined using the decision tree below (flow chart)
 # file containing: TestObsNum, ControlObsNum, mean_test,mean_ctrl, obs_mean_diff, sd_test, sd_ctrl, 
