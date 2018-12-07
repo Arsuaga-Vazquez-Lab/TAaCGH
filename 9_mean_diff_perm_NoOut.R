@@ -88,7 +88,8 @@ seed <- as.numeric(args[9]);
 # seed <- 1;
 
 # Working directory
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 
 # The following CGH_start is minus 1
 CGH_start_minus1 <- 5;
