@@ -16,13 +16,14 @@
 # 4. Parameter (B0, B1, etc)
 # 5. phenotype (lumA, test, sim, rec, etc)
 # 6. Name of dataset/file
-# 7. perm: number of permutations used to modify 0 p-values (e.g. 1/10,000=0.0001, pvalue[0]=0.0001)
-# 8. sig: desired false discovery rate (fdr) for the significant sections
-# 9. seed: any integer number for reproducible research
+# 7. subdir (where the dictionaries were saved and where the p-values were saved)
+# 8. perm: number of permutations used to modify 0 p-values (e.g. 1/10,000=0.0001, pvalue[0]=0.0001)
+# 9. sig: desired false discovery rate (fdr) for the significant sections
+# 10. seed: any integer number for reproducible research
 
 # EXAMPLE
-# R --slave --args B0 test set 10000 0.05 1 < 8_probesFDR.R
-# R --vanilla --args B0 TP53_mut horlings_sect 10000 0.05 1 < 8_probesFDR.R
+# R --slave --args B0 test set subdir 10000 0.05 1 < 8_probesFDR.R
+# R --vanilla --args B0 TP53_mut horlings sect 10000 0.05 1 < 8_probesFDR.R
 
 # Decision tree (flow chart)
 # 1. Both probe averages (test & control) have the same sign  or one of them is zero?
@@ -60,9 +61,10 @@ args = commandArgs();
 param <- args[4];
 phen <- args[5];
 file <- args[6];
-perm <- as.numeric(args[7]);
-sig <- as.numeric(args[8]);
-seed <- as.numeric(args[9]);
+subdir <- args[7];
+perm <- as.numeric(args[8]);
+sig <- as.numeric(args[9]);
+seed <- as.numeric(args[10]);
 
 # Only for debugging purposes
 # file <- "horlings_sect";
@@ -73,7 +75,8 @@ seed <- as.numeric(args[9]);
 # seed <- 1;
 
 # Working directory
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 
 # CGH_start
 CGH_start_minus1 <- 5;
@@ -81,9 +84,9 @@ CGH_start_minus1 <- 5;
 ####### Input files ########
 
 # Read the file with significant sections
-begName <- paste(param, phen, file, "pvals_FDRsig_rev", sep="_");
+begName <- paste(param, phen, file, subdir, "pvals_FDRsig_rev", sep="_");
 first <- paste(begName, ".txt", sep="");
-resPath <- paste(begPath, "Results", file, "significance", "pvals", sep="/");
+resPath <- paste(begPath, "Results", file, subdir,"significance", "pvals",param,phen, sep="/");
 sections_Path <- paste(resPath, first, sep="/");
 sig_sections <- read.table(sections_Path, header=T, sep='\t', comment.char='');
 
