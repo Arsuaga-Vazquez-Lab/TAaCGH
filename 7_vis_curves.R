@@ -43,7 +43,8 @@ subdir <- args[8];
 # READ FILES
 
 # Establish the beginning path
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 
 srcPath <- paste(begPath, "TAaCGH", "functions_sig.R", sep="/");
 source(srcPath);
