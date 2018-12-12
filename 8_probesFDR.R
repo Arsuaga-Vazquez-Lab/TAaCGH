@@ -12,6 +12,8 @@
 # selected significance level). For the second file it will also determine if it is a gain or a loss
 # or if it is undetermined using the decision tree from below (flow chart)
 
+#TODO review if the seed used is actually working (for reproducible research)
+
 # ARGUMENTS
 # 4. Parameter (B0, B1, etc)
 # 5. phenotype (lumA, test, sim, rec, etc)
