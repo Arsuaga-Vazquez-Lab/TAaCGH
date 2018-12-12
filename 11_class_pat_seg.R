@@ -1,7 +1,7 @@
 # TODO: need to create a warning when saving phenotype file to avoid overwritting variables
 # the script compares the homology curve from a patient against the average homology
 # curve for test and for control using the leave-one-out procedure
-# As a result, the phenotype file gets a new variable with every patient classified 
+# As a result, the phenotype file gets a new variable with every patient classified
 # for the section used as input
 
 # OUTPUT
@@ -11,12 +11,12 @@
 
 
 param <- "B0";
-phenotype <- "ER_pos";
+phenotype <- "HER2";
 dataSet <- "climent";
-subdir <- "17qs1tos4"
+subdir <- "sect"
 action<- "sect";
-arm="5p"
-seg="seg3"
+arm="17q"
+seg="seg2"
 outliers <- "no";
 
 
@@ -24,10 +24,11 @@ outliers <- "no";
 # READ FILES
 
 # Establish the beginning path
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 
 # The source code for the permutations
-srcPath <- paste(begPath, "Code", "functions_sig.R", sep="/");
+srcPath <- paste(begPath, "TAaCGH", "functions_sig.R", sep="/");
 source(srcPath);
 
 # Read the phenotype data
