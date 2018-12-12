@@ -31,7 +31,8 @@
  type <- "del"
 
 # Working directory
-begPath <- "~/Research";
+#begPath <- "~/Research";
+begPath <- "..";
 
 # The following CGH_start is minus 1
 CGH_start <- 6;
