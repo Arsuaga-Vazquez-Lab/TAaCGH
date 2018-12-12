@@ -1,6 +1,6 @@
 Some TODOs for future developers of TAaCGH
 + Migrate 4_hom_stats_parts.py to R using persistent homology packages from R like GUDHI or TDA. Reasons: jplex is obsolete for which we need to include an executable java file (plex.jar) that is difficult to share. Asking for the user to have Java and the right version of Python requires an unnecessary extra mile for the user. The script also requires to transpose the original data which is usually very big. If the user works with several datasets it will require a lot of storage space.
-+ Modify the program to stop using indexes used to relate the phenotype file with the aCGH file. That is recipe for disaster
++ Modify the program to stop using indexes used to relate the phenotype file with the aCGH file. That is recipe for disaster. An option is to use the column name to relate the files.
 + update 1_impute_aCGH.R to work with any file, or remove it and modify the manual
 + 11_class_pat_seg.R: need to create a warning when adding columns to phenotype file to avoid overwriting variables
 + Cleaning up the files from unused functions
