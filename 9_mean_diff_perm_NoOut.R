@@ -26,6 +26,8 @@
 # test group and control, t-test pvalue for center of mass (Ho: mean=0) for test phenotype and control phenotype, 
 # p-value computed from permutations and fdr adjust for multiple comparisons
 
+#TODO make sure the parameter seed is actually working (for reproducible research)
+
 # ARGUMENTS
 # 4. Name of dataset/file
 # 5. segLength: Section size, use the same number used in the dictionary
