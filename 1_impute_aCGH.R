@@ -1,3 +1,4 @@
+# TODO this script was used to impute some of our datasets but i hasn't been updated since 2016
 # This program impute missing values from aCGH data with lowess using the
 # aCGH package from Bioconductor
 # (http://www.bioconductor.org/packages//2.11/bioc/html/aCGH.html)
