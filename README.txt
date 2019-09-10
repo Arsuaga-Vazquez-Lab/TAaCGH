@@ -1,6 +1,7 @@
 
 Topological data Analysis for array CGH (TAaCGH)
 
+
 This is a repository with all the necessary scripts to run TAaCGH, a topological based method to analyze aCGH data whose output are regions of the genome where copy number is altered in patients with a predetermined cancer phenotype. We call this method Topological Analysis of array CGH.
 
 For more information about the method please refer to DeWoskin et al 2010, Arsuaga et al 2015, Ardanza-Trevijano et al. 2016, Gonzalez et al 2018.
